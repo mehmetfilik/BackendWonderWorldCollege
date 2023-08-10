@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import utilities.ConfigReader;
 
@@ -61,43 +62,6 @@ public class CommonAPI {
 
     }
 
-
-    @Then("VisitorsPurpose icin POST request gonderilir.")
-    public void visitorspurposeIcinPOSTRequestGonderilir() {
-
-        /*
-        {
-            "visitors_purpose":"Veli Ziyareti",
-            "description":"Veli Ziyareti Icin Gelindi"
-         }
-         */
-
-        /*
-            "status": 200,
-            "message": "Success",
-            "Token_remaining_Time": 26
-            "
-         */
-
-        reqBody = new JSONObject();
-
-        reqBody.put("visitors_purpose","Veli Ziyareti");
-        reqBody.put("description","Veli Ziyareti Icin Gelindi");
-
-        response =  given()
-                        .spec(spec)
-                        .contentType(ContentType.JSON)
-                        .headers("Authorization","Bearer " + token)
-                    .when()
-                        .body(reqBody.toString())
-                        .post(fullPath);
-
-        response.prettyPrint();
-
-
-
-    }
-
     @Given("User sets {string} path param.")
     public void userSetsPathParam(String rawPaths) {
         // https://trendlifebuy.com/api/profile/allCountries
@@ -143,17 +107,31 @@ public class CommonAPI {
                 .when()
                 .get(fullPath);
 
-        //response.prettyPrint();
+        response.prettyPrint();
+    }
+
+    @Then("Postrequest sent with {string} and {string} must have {string} and {string}")
+    public void postrequestSentWithAndMustHaveAnd(String key, String value, String status, String message) {
+        reqBody = new JSONObject();
+
+        reqBody.put(key,value);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        int intStatus = Integer.parseInt(status);
+
+        response.prettyPrint();
+
+        response
+                .then().assertThat().statusCode(intStatus).contentType(ContentType.JSON).body("message", Matchers.equalTo(message));
+
     }
 }
 
-/*
 
-git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/mehmetfilik/BackendWonderWorldCollege.git
-git push -u origin main
-
- */
