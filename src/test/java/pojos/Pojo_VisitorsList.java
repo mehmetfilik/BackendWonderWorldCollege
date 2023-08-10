@@ -44,6 +44,35 @@ public class Pojo_VisitorsList {
         }
      */
 
- private int id;
+     private String id;
+     private String staff_id;
+     private String student_session_id;
+     private String source;
+     private String purpose;
+     private String name;
+     private String email;
+     private String contact;
+     private String id_proof;
+     private String no_of_people;
+     private String date;
+     private String in_time;
+     private String out_time;
+     private String note;
+     private String image;
+     private String meeting_with;
+     private String created_at;
+
+     private String section;
+     private String staff_name;
+     private String staff_surname;
+     private String staff_employee_id;
+     private String class_id;
+     private String section_id;
+     private String students_id;
+     private String admission_no;
+     private String student_firstname;
+     private String student_middlename;
+     private String student_lastname;
+     private String role_id;
 
 }
