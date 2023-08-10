@@ -40,6 +40,32 @@ public class Authentication {
         return token;
     }
 
+    public static String generateInvalidToken(){
+
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+
+        spec.pathParams("pp1","api","pp2","getToken");
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("email", ConfigReader.getProperty("adminInvalidEmail"));
+        reqBody.put("password", ConfigReader.getProperty("adminInvalidPassword"));
+
+        Response response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .header("Accept","application/json")
+                .when()
+                .body(reqBody.toString())
+                .post("/{pp1}/{pp2}");
+
+        JsonPath resJP = response.jsonPath();
+
+        String invalidToken=resJP.getString("token");
+
+        return invalidToken;
+    }
+
 
 
 
