@@ -61,7 +61,6 @@ public class Pojo_VisitorsList {
      private String image;
      private String meeting_with;
      private String created_at;
-
      private String section;
      private String staff_name;
      private String staff_surname;

@@ -5,3 +5,4 @@ Feature: It is used to list all the countries registered in the database.
 
     Given User sets "api/visitorsPurposeList" path param.
     Then For "VisitorsPurpose" is sent Get request.
+    When For
