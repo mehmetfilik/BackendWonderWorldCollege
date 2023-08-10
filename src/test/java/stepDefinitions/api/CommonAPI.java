@@ -98,19 +98,6 @@ public class CommonAPI {
 
     }
 
-    @Then("For VisitorsPurpose is sent Get request.")
-    public void forVisitorsPurposeIsSentGetRequest() {
-        response = given()
-                .spec(spec)
-                .contentType(ContentType.JSON)
-                .headers("Authorization","Bearer " + HooksAPI.token)
-                .when()
-                .get(fullPath);
-
-        response.prettyPrint();
-
-    }
-
     @Given("User sets {string} path param.")
     public void userSetsPathParam(String rawPaths) {
         // https://trendlifebuy.com/api/profile/allCountries
@@ -145,6 +132,18 @@ public class CommonAPI {
 
         fullPath = tempPath.toString(); // {pp1}/{pp2}/{pp3}
         System.out.println("fullPath = " + fullPath);
+    }
+
+    @Then("For {string} is sent Get request.")
+    public void forIsSentGetRequest(String arg0) {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + HooksAPI.token)
+                .when()
+                .get(fullPath);
+
+        //response.prettyPrint();
     }
 }
 
