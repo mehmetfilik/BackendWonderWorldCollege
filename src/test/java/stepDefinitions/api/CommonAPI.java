@@ -8,6 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
+import pojos.Pojo_VisitorsList;
 import utilities.ConfigReader;
 
 import java.util.Arrays;
@@ -131,6 +132,42 @@ public class CommonAPI {
         response
                 .then().assertThat().statusCode(intStatus).contentType(ContentType.JSON).body("message", Matchers.equalTo(message));
 
+    }
+
+
+    @Then("The contents of the list data with id: {string} in the Visitors Response Body should be verified.")
+    public void theContentsOfTheListDataWithIdInTheVisitorsResponseBodyShouldBeVerified(String id) {
+        Pojo_VisitorsList reqBody = new Pojo_VisitorsList(
+                ConfigReader.getProperty("visitors_id"),
+                ConfigReader.getProperty("visitors_staff_id"),
+                ConfigReader.getProperty("visitors_student_session_id"),
+                ConfigReader.getProperty("visitors_source"),
+                ConfigReader.getProperty("visitors_purpose"),
+                ConfigReader.getProperty("visitors_name"),
+                ConfigReader.getProperty("visitors_email"),
+                ConfigReader.getProperty("visitors_contact"),
+                ConfigReader.getProperty("visitors_id_proof"),
+                ConfigReader.getProperty("visitors_no_of_people"),
+                ConfigReader.getProperty("visitors_date"),
+                ConfigReader.getProperty("visitors_in_time"),
+                ConfigReader.getProperty("visitors_out_time"),
+                ConfigReader.getProperty("visitors_note"),
+                ConfigReader.getProperty("visitors_image"),
+                ConfigReader.getProperty("visitors_meeting_with"),
+                ConfigReader.getProperty("visitors_created_at"),
+                ConfigReader.getProperty("visitors_section"),
+                ConfigReader.getProperty("visitors_staff_name"),
+                ConfigReader.getProperty("visitors_staff_surname"),
+                ConfigReader.getProperty("visitors_staff_employee_id"),
+                ConfigReader.getProperty("visitors_class_id"),
+                ConfigReader.getProperty("visitors_section_id"),
+                ConfigReader.getProperty("visitors_students_id"),
+                ConfigReader.getProperty("visitors_admission_no"),
+                ConfigReader.getProperty("visitors_student_firstname"),
+                ConfigReader.getProperty("visitors_student_middlename"),
+                ConfigReader.getProperty("visitors_student_lastname"),
+                ConfigReader.getProperty("visitors_role_id")
+        );
     }
 }
 

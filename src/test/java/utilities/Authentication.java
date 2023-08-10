@@ -22,8 +22,8 @@ public class Authentication {
 
         JSONObject reqBody = new JSONObject();
 
-        reqBody.put("email", ConfigReader.getProperty("email"));
-        reqBody.put("password", ConfigReader.getProperty("password"));
+        reqBody.put("email", ConfigReader.getProperty("adminEmail"));
+        reqBody.put("password", ConfigReader.getProperty("adminPassword"));
 
         Response response = given()
                 .spec(spec)
