@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNull;
 
 public class CommonAPI {
 
-    String fullPath;
+    public static String fullPath;
 
     Response response;
 
@@ -87,17 +87,6 @@ public class CommonAPI {
         System.out.println("fullPath = " + fullPath);
     }
 
-    @Then("For {string} is sent Get request.")
-    public void forIsSentGetRequest(String arg0) {
-        response = given()
-                .spec(spec)
-                .contentType(ContentType.JSON)
-                .headers("Authorization","Bearer " + HooksAPI.token)
-                .when()
-                .get(fullPath);
-
-        response.prettyPrint();
-    }
 
     @Then("Postrequest sent with {string} and {string} must have {string} and {string}")
     public void postrequestSentWithAndMustHaveAnd(String key, String value, String status, String message) {
@@ -128,6 +117,40 @@ public class CommonAPI {
 
 
 
+
+    @Then("With {string} Authorization is sent Get request must status: {string} and message: {string}")
+    public void withAuthorizationIsSentGetRequestMustStatusAndMessage(String str, String status, String message) {
+        if (str.equalsIgnoreCase("Valid")){
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .headers("Authorization","Bearer " + HooksAPI.token)
+                    .when()
+                    .get(fullPath);
+
+            response.prettyPrint();
+        }else {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                    .when()
+                    .get(fullPath);
+
+            response.prettyPrint();
+        }
+
+        int intStatus = Integer.parseInt(status);
+
+        response.prettyPrint();
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+    }
 }
 
 

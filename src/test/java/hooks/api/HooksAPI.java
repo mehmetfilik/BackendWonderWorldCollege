@@ -12,6 +12,7 @@ public class HooksAPI {
 
     public static RequestSpecification spec;
     public static String token;
+    public static String invalidToken;
 
     @Before (order=0)
     public void setUp(){
@@ -24,8 +25,10 @@ public class HooksAPI {
     public void beforeGenerateToken(){
 
         token = Authentication.generateToken();
+        invalidToken= Authentication.generateInvalidToken();
 
     }
+
 
 
 
