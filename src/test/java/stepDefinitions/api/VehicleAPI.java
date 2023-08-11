@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static hooks.api.HooksAPI.spec;
+import static hooks.api.HooksAPI.token;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
@@ -94,7 +95,7 @@ public class VehicleAPI {
 
     @Then("Post request sent with {string} {string} and {string} must have {string} and {string}")
     public void postRequestSentWithAndMustHaveAnd(String str, String key, String value, String status, String message) {
-
+//
         if (str.equalsIgnoreCase("valid authorization")) {
             reqBody = new JSONObject();
 
@@ -171,7 +172,7 @@ public class VehicleAPI {
 
     @Given("Verify the data content with lists content id={int} in the response body.")
     public void verifyTheDataContentWithListsContentIdInTheResponseBody(int arg0) {
-
+//
         JSONObject listData = new JSONObject();
         JSONObject expectedData = new JSONObject();
         listData.put("id", "1");
@@ -190,14 +191,12 @@ public class VehicleAPI {
         expectedData.put("status", 200);
         expectedData.put("message", "Success");
         expectedData.put("Token_remaining_time", 25);
-        expectedData.put("lists",listData);
-
-
+        expectedData.put("lists", listData);
 
 
         reqBody = new JSONObject();
 
-        reqBody.put("id","1");
+        reqBody.put("id", "1");
 
         response = given()
                 .spec(spec)
@@ -207,11 +206,10 @@ public class VehicleAPI {
                 .body(reqBody.toString())
                 .post(fullPath);
 
-        responseJP=response.jsonPath();
+        responseJP = response.jsonPath();
 
 
-
-         assertEquals(expectedData.getJSONObject("lists").get("id"),
+        assertEquals(expectedData.getJSONObject("lists").get("id"),
                 responseJP.get("lists.id"));
         assertEquals(expectedData.getJSONObject("lists").get("vehicle_no"),
                 responseJP.get("lists.vehicle_no"));
@@ -236,8 +234,39 @@ public class VehicleAPI {
         assertEquals(expectedData.getJSONObject("lists").get("created_at"),
                 responseJP.get("lists.created_at"));
 
+    }
 
 
+    @Then("The contents of the list data with id: {string} in the vehicleList Response Body should be verified.")
+    public void theContentsOfTheListDataWithIdInTheVehicleListResponseBodyShouldBeVerified(String id) {
+        String url = "https://qa.wonderworldcollege.com/api/vehicleList";
+
+        reqBody = new JSONObject();
+
+        reqBody.put("id", id);
+        response = given().contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .get(url);
+
+        response.prettyPrint();
+
+
+        responseJP = response.jsonPath();
+
+        response.then().assertThat().body("lists.vehicle_no", Matchers.equalTo("VH1001"));
+        response.then().assertThat().body("lists.vehicle_model", Matchers.equalTo("Volvo Bus"));
+        response.then().assertThat().body("lists.vehicle_photo", Matchers.equalTo("1677502387-149436744063fca7b3a1796!fd.png"));
+        response.then().assertThat().body("lists.manufacture_year", Matchers.equalTo("2017"));
+        response.then().assertThat().body("lists.registration_number", Matchers.equalTo("FVFF-08797865"));
+        response.then().assertThat().body("lists.chasis_number", Matchers.equalTo("45453"));
+        response.then().assertThat().body("lists.max_seating_capacity", Matchers.equalTo("50"));
+        response.then().assertThat().body("lists.driver_name", Matchers.equalTo("Michel"));
+        response.then().assertThat().body("lists.driver_licence", Matchers.equalTo("R534534"));
+        response.then().assertThat().body("lists.driver_contact", Matchers.equalTo("8667777869"));
+        response.then().assertThat().body("lists.note", Matchers.equalTo(""));
+        response.then().assertThat().body("lists.created_at", Matchers.equalTo("2023-02-27 07:53:07"));
 
 
     }
