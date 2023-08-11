@@ -33,6 +33,8 @@ public class VehicleAPI {
 
     JsonPath responseJP;
 
+    JSONObject requestBody;
+
     @Given("User sets {string} path param")
     public void user_sets_path_param(String rawPaths) {
         String[] paths = rawPaths.split("/");
@@ -242,7 +244,7 @@ public class VehicleAPI {
 
     @Then("User posts valid authorization info and correct data to api.vehicleAdd, expecting status code {int} and confirming response body {string} as {string}.")
     public void userPostsValidAuthorizationInfoAndCorrectDataToApiVehicleAddExpectingStatusCodeAndConfirmingResponseBodyAs(int statusCode, String bodyName, String value) {
-        JSONObject requestBody = new JSONObject();
+        requestBody = new JSONObject();
 
         requestBody.put("vehicle_no", "TH5007");
         requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
@@ -280,13 +282,21 @@ public class VehicleAPI {
 
     @Then("When invalid auth or incomplete data is sent to api.vehicleAdd, confirm status code {int} and response {string} as {string}.")
     public void whenInvalidAuthOrIncompleteDataIsSentToApiVehicleAddConfirmStatusCodeAndResponseAs(int statusCode, String bodyName, String value) {
-        response = given()
+        RequestSpecification spec;
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+
+        spec.pathParams("pp1","api","pp2","vehicleAdd");
+        Response response = given()
                 .spec(spec)
                 .contentType(ContentType.JSON)
-                .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
                 .when()
-                .body(reqBody.toString())
-                .post(fullPath);
+                .body(requestBody.toString())
+                .post("/{pp1}/{pp2}");
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+
+
 
 
     }
