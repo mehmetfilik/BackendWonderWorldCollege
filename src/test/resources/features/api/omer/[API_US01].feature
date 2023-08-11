@@ -14,7 +14,6 @@ Feature: It is used to list all the countries registered in the database.
 
   Scenario: [US_01-->TC_03]The content of the lists in the response body should be validated to contain data with ID "1," where the visitors_purpose is "Marketing," and created_at is "2023-01-18 01:07:12."
 
-    Given User sets "api/visitorsPurposeId" path param.
     Then The contents of the list data with id: "1" in the VisitorPurpose Response Body should be verified.
 
 
