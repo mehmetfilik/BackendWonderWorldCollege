@@ -5,12 +5,15 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
+import utilities.ConfigReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -190,14 +193,12 @@ public class VehicleAPI {
         expectedData.put("status", 200);
         expectedData.put("message", "Success");
         expectedData.put("Token_remaining_time", 25);
-        expectedData.put("lists",listData);
-
-
+        expectedData.put("lists", listData);
 
 
         reqBody = new JSONObject();
 
-        reqBody.put("id","1");
+        reqBody.put("id", "1");
 
         response = given()
                 .spec(spec)
@@ -207,11 +208,10 @@ public class VehicleAPI {
                 .body(reqBody.toString())
                 .post(fullPath);
 
-        responseJP=response.jsonPath();
+        responseJP = response.jsonPath();
 
 
-
-         assertEquals(expectedData.getJSONObject("lists").get("id"),
+        assertEquals(expectedData.getJSONObject("lists").get("id"),
                 responseJP.get("lists.id"));
         assertEquals(expectedData.getJSONObject("lists").get("vehicle_no"),
                 responseJP.get("lists.vehicle_no"));
@@ -237,9 +237,59 @@ public class VehicleAPI {
                 responseJP.get("lists.created_at"));
 
 
+    }
 
+
+    @Then("User posts valid authorization info and correct data to api.vehicleAdd, expecting status code {int} and confirming response body {string} as {string}.")
+    public void userPostsValidAuthorizationInfoAndCorrectDataToApiVehicleAddExpectingStatusCodeAndConfirmingResponseBodyAs(int statusCode, String bodyName, String value) {
+        JSONObject requestBody = new JSONObject();
+
+        requestBody.put("vehicle_no", "TH5007");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+        requestBody.put("created_at", "2023-08-11 14:43:05");
+
+        RequestSpecification spec;
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+
+        spec.pathParams("pp1","api","pp2","vehicleAdd");
+        Response response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when()
+                .body(requestBody.toString())
+                .post("/{pp1}/{pp2}");
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+
+    }
+
+
+
+
+
+
+
+    @Then("When invalid auth or incomplete data is sent to api.vehicleAdd, confirm status code {int} and response {string} as {string}.")
+    public void whenInvalidAuthOrIncompleteDataIsSentToApiVehicleAddConfirmStatusCodeAndResponseAs(int statusCode, String bodyName, String value) {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
 
 
     }
-}
 
+
+}
