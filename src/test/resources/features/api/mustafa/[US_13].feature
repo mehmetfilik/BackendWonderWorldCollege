@@ -11,7 +11,7 @@ Feature: [US_13]As an administrator, I want to access the Vehicle List through A
 
 
 
-  @mustafa
+
   Scenario:[US_13-->TC_02] Sending a GET request with invalid authorization to api/vehicleList
     When With "invalid" Authorization is sent Get request must status: "403" and message: "failed"
 
