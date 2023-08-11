@@ -1,6 +1,7 @@
 package stepDefinitions.api;
 
 import hooks.api.HooksAPI;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -11,7 +12,10 @@ import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static hooks.api.HooksAPI.spec;
 import static io.restassured.RestAssured.given;
@@ -79,6 +83,12 @@ public class VehicleAPI {
                 .when()
                 .get(fullPath);
 
-        response.prettyPrint();
+
+    }
+
+    @And("Verify the data content with lists content id={int} in the response body.")
+    public void verifyTheDataContentWithListsContentIdInTheResponseBody(int arg0) {
+
+
     }
 }
