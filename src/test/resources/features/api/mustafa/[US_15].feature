@@ -12,4 +12,3 @@ Feature: [US_15] As an administrator, I want to create a new Vehicle record thro
 Scenario:[API_US15-->TC03] The new vehicle record that is desired to be created via the API must be verified through the API where it is created.
   Given Create a new vehicle registration via API
 
-
