@@ -14,5 +14,5 @@ Feature: [US_14]As an administrator, I want to access the Vehicle information of
     Then Postrequest sent with "<key>" and "<value>" must have "<status>" and "<message>"
     Examples:
       | key | value | status | message |
-      | id  | 1    | 403    | failed  |
+      | id  | 1     | 403    | failed  |
 
