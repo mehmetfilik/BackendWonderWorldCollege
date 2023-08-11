@@ -13,11 +13,11 @@ Feature: [US_13]As an administrator, I want to access the Vehicle List through A
 
 
   Scenario:[US_13-->TC_02] Sending a GET request with invalid authorization to api/vehicleList
-    When With "invalid" Authorization is sent Get request must status: "403" and message: "failed"
+    When With invalit Authorization is sent Get request must status: 403 and message: "failed"
 
 
   Scenario:[US_13-->TC_03]  The lists content in the response body should be able to verify the data content with id=1.
-    And Verify the data content with lists content id=1 in the response body.
+
 
 
 
