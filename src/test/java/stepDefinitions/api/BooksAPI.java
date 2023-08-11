@@ -43,9 +43,6 @@ public class BooksAPI {
 
         Pojo_BooksList respPojo = response.as(Pojo_BooksList.class);
 
-
-
-
     }
 
 }
