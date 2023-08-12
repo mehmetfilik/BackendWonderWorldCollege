@@ -415,4 +415,63 @@ public class VehicleAPI {
         response.then().assertThat().statusCode(200).body("lists.driver_name",Matchers.equalTo("Ahmet Enhakikiöz"));
 
     }
+
+    @Then("send endpoint valid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointValidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+        requestBody = new JSONObject();
+        requestBody.put("id","28");
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model","Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response=given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.then().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+    }
+
+    @Then("send endpoint invalid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointInvalidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+        RequestSpecification spec;
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+        spec.pathParams("pp1", "api", "pp2", "vehicleUpdate");
+
+        requestBody = new JSONObject();
+        requestBody.put("id","28");
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model","Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet öz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+
+
+
+        response=given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " +HooksAPI.invalidToken)
+                .when().body(requestBody.toString())
+                .patch(fullPath);
+
+        response.then().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+    }
 }
