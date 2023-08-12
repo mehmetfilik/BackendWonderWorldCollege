@@ -11,7 +11,7 @@ Feature: [API_US028] As an administrator, I want to access the Books List throug
     Given User sets "api/booksList" path param.
     Then With "invalid" Authorization is sent Get request must status: "403" and message: "Failed"
 
-@book
+
    Scenario: [API_US028-->TC03] Check response body data (id="1") for details like book_title,book_no,isbn_no,subject,rack_no,publish,author,qty,perunitcost,postdate,description,available,and is_active.
 
      Given User sets "api/booksList" path param.

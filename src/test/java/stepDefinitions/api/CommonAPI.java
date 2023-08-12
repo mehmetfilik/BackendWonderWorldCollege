@@ -97,7 +97,7 @@ public class CommonAPI {
         response =  given()
                 .spec(spec)
                 .contentType(ContentType.JSON)
-                .headers("Authorization","Bearer " + token)
+                .headers("Authorization","Bearer " +HooksAPI.token)
                 .when()
                 .body(reqBody.toString())
                 .post(fullPath);
