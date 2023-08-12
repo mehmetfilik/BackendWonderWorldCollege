@@ -1,6 +1,6 @@
 Feature: [API_US02] As an administrator, I want to access the Visitor Purpose information of a user with a given ID through API connection.
 
-  Scenario Outline: [API_US02-->TC01] When valid authorization info and correct ID data are POSTed to api/visitorsPurposeId, expect 200 status with 'Success' message in response.
+  Scenario Outline: [API_US02-->TC01,TC_03] When valid authorization info and correct ID data are POSTed to api/visitorsPurposeId, expect 200 status with 'Success' message in response.
 
     Given User sets "api/visitorsPurposeId" path param.
     Then Postrequest sent with "<key>" and "<value>" must have "<status>" and "<message>"

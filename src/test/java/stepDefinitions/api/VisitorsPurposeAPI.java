@@ -3,6 +3,7 @@ package stepDefinitions.api;
 
 import hooks.api.HooksAPI;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -26,6 +27,7 @@ public class VisitorsPurposeAPI {
     Response response;
 
     JSONObject reqBody;
+    String addId;
 
     @Then("The contents of the list data with id: {string} in the VisitorPurpose Response Body should be verified.")
     public void the_contents_of_the_list_data_with_id_in_the_visitor_purpose_response_body_should_be_verified(String id) {
@@ -127,6 +129,15 @@ public class VisitorsPurposeAPI {
                 .statusCode(intStatus)
                 .contentType(ContentType.JSON)
                 .body("message", Matchers.equalTo(message));
+
+        // Bu bölüm TC_03
+        HashMap<String,Object> respMap = response.as(HashMap.class);
+
+        System.out.println("respMap"+respMap.toString());
+
+        addId = respMap.get("addId").toString();
+        System.out.println(addId);
+
     }
 
     @Then("Postrequest with invalid Authorization sent with {string} and {string}and {string} and {string} must have {string} and {string}")
@@ -189,6 +200,26 @@ public class VisitorsPurposeAPI {
         // Bu kisim [API_US4-->TC_04]
         Assert.assertEquals(value1Id,respMap.get("updateId"));
         System.out.println("respMap"+respMap.toString());
+
+        String updateId = respMap.get("updateId").toString();
+        System.out.println(updateId);
+        JSONObject reqBody1 = new JSONObject();
+        int intaddId = Integer.parseInt(addId);
+        reqBody.put("id",intaddId);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody1.toString())
+                .post(CommonAPI.fullPath);
+        response.prettyPrint();
+
+        response.then()
+                .assertThat()
+                .contentType(ContentType.JSON)
+                .body("lists.id", Matchers.equalTo(intaddId));
     }
 
     @Then("Patchrequest sent with invalid Authorization with {string} , {string}, {string}, {string},{string} and {string} and must have {string} and {string}")
@@ -219,6 +250,29 @@ public class VisitorsPurposeAPI {
                 .contentType(ContentType.JSON)
                 .body("message", Matchers.equalTo(message));
     }
+
+    @Given("Checking the id updated with Postrequest id: {int} from API")
+    public void checkingTheIdUpdatedWithPostrequestIdFromAPI(int id) {
+        String url = "https://qa.wonderworldcollege.com/api/visitorsPurposeId";
+        reqBody = new JSONObject();
+
+        reqBody.put("id",id);
+        response=given().contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(url);
+        response.prettyPrint();
+
+        String newid=id+"";
+        response.then()
+                .assertThat()
+                .contentType(ContentType.JSON)
+                .body("lists.id", Matchers.equalTo(newid));
+
+    }
+
+
 
     /*
     @And("The successful creation of a new visitor purpose")
