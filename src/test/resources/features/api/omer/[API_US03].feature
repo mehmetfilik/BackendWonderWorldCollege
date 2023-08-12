@@ -9,7 +9,7 @@ Feature: As an administrator, I want to create a new visitor purpose record thro
       | key1                | value1            | key2          | value2                    | status | message  |
       | visitors_purpose   | Veli Ziyareti      | description  | Veli Ziyareti İçin Gelindi | 200     | Success |
 
-
+  @omer
   Scenario Outline: When invalid auth or missing data (purpose, description) is POSTed to api/visitorsPurposeAdd, expect 403 status & 'failed' message in response.
 
     Given User sets "api/visitorsPurposeAdd" path param.
