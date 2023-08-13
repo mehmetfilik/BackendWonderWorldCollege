@@ -17,9 +17,10 @@ import org.junit.runner.RunWith;
 
         features = "src/test/resources/features",
         glue = {"stepDefinitions", "hooks"},
-        tags = "@filik",
+        tags = "@samet",
 
         dryRun = false
+
 )
 public class RunnerAPI {
 
