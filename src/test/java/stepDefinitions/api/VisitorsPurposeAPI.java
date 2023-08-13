@@ -272,6 +272,71 @@ public class VisitorsPurposeAPI {
 
     }
 
+    @Given("Creating a new record with Post Request and deleting it with deleterequest.")
+    public void creatingANewRecordWithPostRequestAndDeletingItWithDeleterequest() {
+        String urlPost ="https://qa.wonderworldcollege.com/api/visitorsPurposeAdd";
+        String key1 = "visitors_purpose";
+        String key2 = "description";
+        String value1 = "Veli Ziyareti";
+        String value2 = "Delete icin Kayit";
+        reqBody = new JSONObject();
+
+        reqBody.put(key1,value1);
+        reqBody.put(key2,value2);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(urlPost);
+
+        int intStatus = 200;
+        String message="Success";
+
+        response.prettyPrint();
+
+        /*
+        response
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+         */
+
+        HashMap<String,Object> respMap = response.as(HashMap.class);
+
+        System.out.println("respMap"+respMap.toString());
+
+        addId = respMap.get("addId").toString();
+        int addIdint = Integer.parseInt(addId);
+        System.out.println(addId);
+
+        // Delete islemine geciyoruz
+        String urlDelete = "https://qa.wonderworldcollege.com/api/visitorsPurposeDelete";
+        reqBody.put("id",addIdint);
+        Response response2 =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .delete(urlDelete);
+// Assertion
+        response2
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+        response2.prettyPrint();
+
+    }
+
 
 
     /*
