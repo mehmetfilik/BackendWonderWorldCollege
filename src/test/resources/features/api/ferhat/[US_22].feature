@@ -1,5 +1,5 @@
-Feature: [API_US22] As an administrator, I want to access the Alumni List through API connection
 
+Feature: [API_US22] As an administrator, I want to access the Alumni List through API connection
 
   Scenario: [API_US22-->TC01] Success Response
     
