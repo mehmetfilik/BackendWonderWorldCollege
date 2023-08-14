@@ -67,6 +67,58 @@ public class Authentication {
     }
 
 
+    public static String teacherGenerateToken(){
+
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+
+        spec.pathParams("pp1","api","pp2","getToken");
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("email", ConfigReader.getProperty("teacherEmail"));
+        reqBody.put("password", ConfigReader.getProperty("teacherPassword"));
+
+        Response response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .header("Accept","application/json")
+                .when()
+                .body(reqBody.toString())
+                .post("/{pp1}/{pp2}");
+
+        JsonPath resJP = response.jsonPath();
+
+        String token=resJP.getString("token");
+
+        return token;
+    }
+
+    public static String teacherGenerateInvalidToken(){
+
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+
+        spec.pathParams("pp1","api","pp2","getToken");
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("email", ConfigReader.getProperty("teacherInvalidEmail"));
+        reqBody.put("password", ConfigReader.getProperty("teacherInvalidPassword"));
+
+        Response response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .header("Accept","application/json")
+                .when()
+                .body(reqBody.toString())
+                .post("/{pp1}/{pp2}");
+
+        JsonPath resJP = response.jsonPath();
+
+        String invalidToken=resJP.getString("token");
+
+        return invalidToken;
+    }
+
 
 
 
