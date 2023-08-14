@@ -15,6 +15,9 @@ public class HooksAPI {
     public static String token;
     public static String invalidToken;
 
+    public static String tokenTeacher;
+    public static String tokenInvalidTeacher;
+
     @Before (order=0)
     public void setUp(){
 
@@ -28,11 +31,8 @@ public class HooksAPI {
         token = Authentication.generateToken();
         invalidToken= Authentication.generateInvalidToken();
 
+        tokenTeacher = Authentication.teacherGenerateToken();
+        tokenInvalidTeacher = Authentication.teacherGenerateInvalidToken();
     }
-
-
-
-
-
 
 }
