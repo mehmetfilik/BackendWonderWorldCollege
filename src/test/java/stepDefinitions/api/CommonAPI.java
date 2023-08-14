@@ -175,7 +175,7 @@ public class CommonAPI {
 
             String responseBody = response.getBody().asString();
             JsonPath respJP = new JsonPath(responseBody);
-            deletedId = respJP.getString("deletedId");
+            deletedId = respJP.getString(deleteId);
 
             System.out.println(deletedId);
 

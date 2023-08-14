@@ -159,7 +159,7 @@ public class BooksAPI {
 
         JSONObject reqBody = new JSONObject();
 
-        reqBody.put("id", "85");
+        reqBody.put("id", id);
         reqBody.put("book_title","Division");
         reqBody.put("book_no", "11111");
         reqBody.put("isbn_no", "15");
@@ -242,6 +242,32 @@ public class BooksAPI {
                 .statusCode(status)
                 .contentType(ContentType.JSON)
                 .body("message", Matchers.equalTo(message),"lists.id",Matchers.equalTo(updatedId));
+
+    }
+
+    @Then("After Books deleting Postrequest sent with {string} must have status: {int} and message: {string}")
+    public void afterBooksDeletingPostrequestSentWithMustHaveStatusAndMessage(String id, Integer status, String message) {
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put(id,CommonAPI.deletedId);
+
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(CommonAPI.fullPath);
+
+        response.prettyPrint();
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(status)
+                .body("message",Matchers.equalTo(message));
 
     }
 }
