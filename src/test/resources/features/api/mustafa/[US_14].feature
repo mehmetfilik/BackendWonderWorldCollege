@@ -1,7 +1,7 @@
 Feature: [US_14]As an administrator, I want to access the Vehicle information of a vehicle with a given ID through API connection.
 
   Background:
-    Given User sets "api/vehicleList" path param
+    Given User sets "api/vehicleId" path param
 
   Scenario Outline: [API_US14-->TC01] Confirm that using valid authorization and correct data (id) in a POST body to api/vehicleId endpoint yields a 200 status code, with the response body's "message" being "Success."
     Then Post request sent with "valid authorization" "<key>" and "<value>" must have "<status>" and "<message>"

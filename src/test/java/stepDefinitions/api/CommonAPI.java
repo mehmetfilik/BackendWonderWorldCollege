@@ -14,6 +14,7 @@ import pojos.Pojo_VisitorsList;
 import utilities.ConfigReader;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static hooks.api.HooksAPI.spec;
 import static hooks.api.HooksAPI.token;
@@ -28,6 +29,8 @@ public class CommonAPI {
     Response response;
 
     JSONObject reqBody;
+
+    public static String deletedId;
 
 
     /*
@@ -142,8 +145,6 @@ public class CommonAPI {
 
         int intStatus = Integer.parseInt(status);
 
-        response.prettyPrint();
-
         response
                 .then()
                 .assertThat()
@@ -151,6 +152,65 @@ public class CommonAPI {
                 .contentType(ContentType.JSON)
                 .body("message", Matchers.equalTo(message));
     }
+
+
+
+    @Given("With {string} Authorization is sent Delete request must id: {string}, delete_id_key: {string}, status: {int} and message: {string}")
+    public void with_authorization_is_sent_delete_request_must_id_delete_id_key_status_and_message(String str, String id, String deleteId, Integer status, String message) {
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("id", id);
+
+
+        if (str.equalsIgnoreCase("Valid")){
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .headers("Authorization","Bearer " + HooksAPI.token)
+                    .when()
+                    .body(reqBody.toString())
+                    .delete(fullPath);
+
+            response.prettyPrint();
+
+            String responseBody = response.getBody().asString();
+            JsonPath respJP = new JsonPath(responseBody);
+            deletedId = respJP.getString("deletedId");
+
+            System.out.println(deletedId);
+
+            response
+                    .then()
+                    .assertThat()
+                    .statusCode(status)
+                    .contentType(ContentType.JSON)
+                    .body("message", Matchers.equalTo(message), deleteId,Matchers.equalTo(id));
+
+        }else {
+            response = given()
+                    .spec(spec)
+                    .contentType(ContentType.JSON)
+                    .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                    .when()
+                    .body(reqBody.toString())
+                    .delete(fullPath);
+
+            response.prettyPrint();
+
+            response
+                    .then()
+                    .assertThat()
+                    .statusCode(status)
+                    .contentType(ContentType.JSON)
+                    .body("message", Matchers.equalTo(message));
+        }
+
+
+    }
+
+
+
+
 }
 
 
