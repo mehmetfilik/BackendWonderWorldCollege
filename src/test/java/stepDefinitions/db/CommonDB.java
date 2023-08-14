@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static utilities.DB_Utils.*;
+
 public class CommonDB {
 
     String query;
@@ -18,9 +20,11 @@ public class CommonDB {
     Statement statement;
 
     @Given("Start Communication With WonderWorldCollege DataBase")
-    public void start_communication_with_wonder_world_college_data_base() throws SQLException {
-        connection = DriverManager.getConnection(ConfigReader.getProperty("dbUrl"),ConfigReader.getProperty("dbUsername"),ConfigReader.getProperty("dbPssword"));
-        statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+    public void start_communication_with_wonder_world_college_data_base() {
+  //      connection = DriverManager.getConnection(ConfigReader.getProperty("dbUrl"),ConfigReader.getProperty("dbUsername"),ConfigReader.getProperty("dbPssword"));
+  //      statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        createConnection();
+        statement = getStatement();
     }
     @Then("List the last {int} records from the online_admissions table")
     public void list_the_last_records_from_the_online_admissions_table(Integer number) throws SQLException {
@@ -42,10 +46,11 @@ public class CommonDB {
 
     }
     @When("Close the DataBase")
-    public void close_the_data_base() throws SQLException {
-        connection.close();
-        statement.close();
-        resultSet.close();
+    public void close_the_data_base() {
+  //      connection.close();
+  //      statement.close();
+  //      resultSet.close();
+        closeConnection();
     }
 
 
