@@ -242,8 +242,6 @@ public class VehicleAPI {
     }
 
 
-
-
     @Then("User posts valid authorization info and correct data to api.vehicleAdd, expecting status code {int} and confirming response body {string} as {string}.")
     public void userPostsValidAuthorizationInfoAndCorrectDataToApiVehicleAddExpectingStatusCodeAndConfirmingResponseBodyAs(int statusCode, String bodyName, String value) {
 
@@ -263,7 +261,7 @@ public class VehicleAPI {
 
         RequestSpecification spec;
         spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
-        spec.pathParams("pp1","api","pp2","vehicleAdd");
+        spec.pathParams("pp1", "api", "pp2", "vehicleAdd");
 
         Response response = given()
                 .spec(spec)
@@ -273,7 +271,7 @@ public class VehicleAPI {
                 .body(requestBody.toString())
                 .post("/{pp1}/{pp2}");
 
-        response.then().assertThat().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+        response.then().assertThat().statusCode(statusCode).body(bodyName, Matchers.equalTo(value));
 
     }
 
@@ -284,7 +282,7 @@ public class VehicleAPI {
         RequestSpecification spec;
         spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
         spec.pathParams("pp1", "api", "pp2", "vehicleAdd");
-        requestBody=new JSONObject();
+        requestBody = new JSONObject();
         requestBody.put("vehicle_no", "TH5007");
         requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
         requestBody.put("manufacture_year", "2023");
@@ -293,7 +291,7 @@ public class VehicleAPI {
         requestBody.put("max_seating_capacity", "30");
         requestBody.put("driver_name", "Ahmet Enhakikiöz");
 
-        String url="https://qa.wonderworldcollege.com/api/vehicleAdd";
+        String url = "https://qa.wonderworldcollege.com/api/vehicleAdd";
         Response response = given()
                 .spec(spec)
                 .contentType(ContentType.JSON)
@@ -303,9 +301,6 @@ public class VehicleAPI {
                 .post("/{pp1}/{pp2}");
 
         response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
-
-
-
 
 
     }
@@ -351,13 +346,19 @@ public class VehicleAPI {
 
         response = given()
                 .spec(spec)
-                .contentType(ContentType.JSON)
-                .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                // .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
                 .when()
+<<<<<<< HEAD
                 .get("/{pp1}/{pp2}");
 
 
             responseJP=response.jsonPath();
+=======
+                .get(CommonAPI.fullPath);
+
+        responseJP = response.jsonPath();
+>>>>>>> main
 
       //  response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
 
@@ -372,28 +373,26 @@ public class VehicleAPI {
 
         requestBody = new JSONObject();
         requestBody.put("vehicle_no", "TH2023");
-        requestBody.put("vehicle_model","Mercedes VITO");
+        requestBody.put("vehicle_model", "Murat 131");
         requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
         requestBody.put("manufacture_year", "2023");
         requestBody.put("registration_number", "KMTT-957845");
         requestBody.put("chasis_number", "10643");
         requestBody.put("max_seating_capacity", "30");
-        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_name", "Murat Babayigit");
         requestBody.put("driver_licence", "T74879489");
         requestBody.put("driver_contact", "94578849850");
         requestBody.put("note", "");
 
 
-        response=given()
+        response = given()
                 .spec(spec)
                 .contentType(ContentType.JSON)
-                .headers("Authorization","Bearer " + token)
+                .headers("Authorization", "Bearer " + token)
                 .when().body(requestBody.toString())
                 .post("/{pp1}/{pp2}");
 
         response.prettyPrint();
-
-
 
 
     }
@@ -414,7 +413,158 @@ public class VehicleAPI {
                 .body(reqBody.toString())
                 .post(fullPath);
 
-        response.then().assertThat().statusCode(200).body("lists.driver_name",Matchers.equalTo("Ahmet Enhakikiöz"));
+        response.then().assertThat().statusCode(200).body("lists.driver_name", Matchers.equalTo("Ahmet Enhakikiöz"));
+
+    }
+
+    @Then("send endpoint valid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointValidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+        requestBody = new JSONObject();
+        requestBody.put("id", "28");
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model", "Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+
+        response.then().statusCode(statusCode).body(bodyName, Matchers.equalTo(value));
+    }
+
+    @Then("send endpoint invalid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointInvalidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+        RequestSpecification spec;
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+        spec.pathParams("pp1", "api", "pp2", "vehicleUpdate");
+
+        requestBody = new JSONObject();
+        requestBody.put("id", "28");
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model", "Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet öz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + token)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.then().statusCode(statusCode).body(bodyName, Matchers.equalTo(value));
+    }
+
+    @Then("The updateId in the response must match the id in the PATCH request body sent to the api.vehicleUpdate endpoint.")
+    public void theUpdateIdInTheResponseMustMatchTheIdInThePATCHRequestBodySentToTheApiVehicleUpdateEndpoint() {
+
+        requestBody = new JSONObject();
+        requestBody.put("id", "28");
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model", "Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.prettyPrint();
+        responseJP = response.jsonPath();
+
+        Assert.assertEquals(requestBody.get("id"), responseJP.get("updateId"));
+
+    }
+
+    @Given("Update the vehicle registration with ID {int} and verify that it has been updated")
+    public void updateTheVehicleRegistrationWithIDAndVerifyThatItHasBeenUpdated(int arg0) {
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("id", 28);
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model", "volkswagen POLO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet JavaMaster");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.prettyPrint();
+    }
+
+    @Then("Sending valid authorization and correct data \\(id) to the api.vehicleDelete endpoint should result in a {int} status code and Success as the response message.")
+    public void sendingValidAuthorizationAndCorrectDataIdToTheApiVehicleDeleteEndpointShouldResultInAStatusCodeAndSuccessAsTheResponseMessage(int arg0) {
+        requestBody = new JSONObject();
+        requestBody.put("id", 29);
+        response = given().spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        responseJP = response.jsonPath();
+
+        response.then().assertThat().statusCode(200).body("message", Matchers.equalTo("Success"));
+
+
+    }
+
+    @Then("Sending invalid authorization or incorrect data \\(id) to the api.vehicleDelete endpoint should result in a {int} status code and failed as the response message.")
+    public void sendingInvalidAuthorizationOrIncorrectDataIdToTheApiVehicleDeleteEndpointShouldResultInAStatusCodeAndFailedAsTheResponseMessage(int arg0) {
+
+        RequestSpecification spec;
+        spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
+        spec.pathParams("pp0", "api", "pp1", "vehicleDelete");
+
+        requestBody = new JSONObject();
+        requestBody.put("id", "100");
+        response = given().spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + token)
+                .when().body(requestBody.toString())
+                .delete("/{pp0}/{pp1}");
+
 
     }
 
