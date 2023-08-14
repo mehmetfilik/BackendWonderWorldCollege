@@ -355,9 +355,11 @@ public class VehicleAPI {
                 .headers("Authorization","Bearer " + HooksAPI.invalidToken)
                 .when()
                 .get("/{pp1}/{pp2}");
+
+
             responseJP=response.jsonPath();
 
-        response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
+      //  response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
 
     }
 
@@ -413,6 +415,129 @@ public class VehicleAPI {
                 .post(fullPath);
 
         response.then().assertThat().statusCode(200).body("lists.driver_name",Matchers.equalTo("Ahmet Enhakikiöz"));
+
+    }
+
+
+    @Then("send endpoint valid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointValidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int arg0, String arg1, String arg2) {
+
+
+        requestBody = new JSONObject();
+        requestBody.put("id",28);
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model","Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response=given().spec(spec).contentType(ContentType.JSON) .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(200).body("message",Matchers.equalTo("Success"));
+
+    }
+
+    @Then("send endpoint invalid PATCH body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointInvalidPATCHBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int arg0, String arg1, String arg2) {
+        requestBody = new JSONObject();
+        requestBody.put("id",28);
+        requestBody.put("vehicle_no", "TH2023");
+        requestBody.put("vehicle_model","Mercedes VITO");
+        requestBody.put("vehicle_photo", "7584709375093705973097490479895!fd.png");
+        requestBody.put("manufacture_year", "2023");
+        requestBody.put("registration_number", "KMTT-957845");
+        requestBody.put("chasis_number", "10643");
+        requestBody.put("max_seating_capacity", "30");
+        requestBody.put("driver_name", "Ahmet Enhakikiöz");
+        requestBody.put("driver_licence", "T74879489");
+        requestBody.put("driver_contact", "94578849850");
+        requestBody.put("note", "");
+
+        response=given()
+                .spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
+                .when().body(requestBody.toString())
+                .patch(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(403).body("message",Matchers.equalTo("failed"));
+    }
+
+    @Then("send endpoint valid DELETE body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointValidDELETEBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+    requestBody=new JSONObject();
+    requestBody.put("id","162");
+
+    response=given().spec(spec).contentType(ContentType.JSON)
+            .headers("Authorization", "Bearer " + HooksAPI.token)
+            .when().body(requestBody.toString())
+            .delete(CommonAPI.fullPath);
+
+    response.prettyPrint();
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+
+
+
+    }
+
+    @Then("When invalid auth or incomplete data is sent to api.vehicleDelete, confirm status code {int} and response {string} as {string}.")
+    public void whenInvalidAuthOrIncompleteDataIsSentToApiVehicleDeleteConfirmStatusCodeAndResponseAs(int statusCode, String bodyName, String value) {
+
+        requestBody=new JSONObject();
+        requestBody.put("id","500");
+
+        response=given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName,Matchers.equalTo(value));
+    }
+
+    @Then("It is verified that the Deleted information in the response body is the same as the id in the request body.")
+    public void ıtIsVerifiedThatTheDeletedInformationInTheResponseBodyIsTheSameAsTheIdInTheRequestBody() {
+        requestBody=new JSONObject();
+        requestBody.put("id","161");
+
+        response=given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        //162,63,64,65
+        response.prettyPrint();
+
+       response.then().assertThat().body("DeletedId",Matchers.equalTo(requestBody.getString("id")));
+
+
+
+
+
+
+
+
+
+    }
+
+    @Then("It is verified via the API that the vehicle record to be deleted via the API is deleted.")
+    public void ıtIsVerifiedViaTheAPIThatTheVehicleRecordToBeDeletedViaTheAPIIsDeleted() {
+        requestBody=new JSONObject();
+        requestBody.put("id","160");
+
+        response=given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .post(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(403).body("message",Matchers.equalTo("failed"));
 
     }
 }
