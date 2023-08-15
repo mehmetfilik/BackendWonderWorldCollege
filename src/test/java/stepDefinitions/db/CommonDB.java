@@ -265,7 +265,7 @@ public class CommonDB {
     @Then("The name information for the specified id in the topic table should be updatable")
     public void theNameInformationForTheSpecifiedIdInTheTopicTableShouldBeUpdatable() throws SQLException {
         int specifiedId = 124;
-        String newTopicName = "Mustafa ";
+        String newTopicName = "villa tarabya.";
 
            query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
@@ -290,9 +290,9 @@ public class CommonDB {
         try {
 
 
-            String sql = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
+           query = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
 
-            int rowsInserted = statement.executeUpdate(sql);
+            int rowsInserted = statement.executeUpdate(query);
             if (rowsInserted > 0) {
                 System.out.println("new record added.");
             } else {
