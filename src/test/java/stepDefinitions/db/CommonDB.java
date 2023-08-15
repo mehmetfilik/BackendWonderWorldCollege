@@ -93,9 +93,9 @@ public class CommonDB {
     @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
     public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
         try  {
-            String sql = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
+            query = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
 
-                resultSet = statement.executeQuery(sql);
+                resultSet = statement.executeQuery(query);
                     while (resultSet.next()) {
                         int userId = resultSet.getInt("user_id");
                         String username = resultSet.getString("username");
@@ -108,7 +108,7 @@ public class CommonDB {
         }
 
     }
-        }
+
 
 
 
@@ -182,5 +182,56 @@ public class CommonDB {
         }
 
     }
-}
+
+    @Then("The name information for the specified id in the topic table should be updatable")
+    public void theNameInformationForTheSpecifiedIdInTheTopicTableShouldBeUpdatable() throws SQLException {
+        int specifiedId = 124;
+        String newTopicName = "Mustafa ";
+
+           query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
+
+            int rowsUpdated = statement.executeUpdate(query);
+            if (rowsUpdated > 0) {
+                System.out.println("Registry update successful.");
+            } else {
+                System.out.println("Registry update failed.");
+            }
+
+            statement.close();
+
+        }
+
+    @Then("A new record should be added to the transport_route table.")
+    public void aNewRecordShouldBeAddedToTheTransport_routeTable() {
+        String newRouteTitle = "Ankara-Newyork";
+        int newNoOfVehicle = 5;
+        String newNote = "Haymana-Republik Street";
+        boolean newIsActive = true;
+
+        try {
+
+
+            String sql = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
+
+            int rowsInserted = statement.executeUpdate(sql);
+            if (rowsInserted > 0) {
+                System.out.println("new record added.");
+            } else {
+                System.out.println("Could not add new record.");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+
+        }
+    }
+    }
+
+
+
+
+
+
+
+
 
