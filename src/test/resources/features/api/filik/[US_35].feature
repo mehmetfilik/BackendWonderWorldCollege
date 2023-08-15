@@ -1,4 +1,4 @@
-@filik
+@cr
 Feature: [API_US35] As an administrator, I want to create a new Visitor record through API connection.
 
 

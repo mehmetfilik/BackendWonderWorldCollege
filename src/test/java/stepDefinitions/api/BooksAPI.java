@@ -34,18 +34,20 @@ public class BooksAPI {
         reqBody = new JSONObject();
 
         reqBody.put("id", id);
-        response = given().contentType(ContentType.JSON)
-                .headers("Authorization", "Bearer " + token)
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " +HooksAPI.token)
                 .when()
                 .body(reqBody.toString())
-                .get(Url);
+                .post(CommonAPI.fullPath);
         response.prettyPrint();
 
         response.then()
                 .assertThat()
                 .contentType(ContentType.JSON)
                 .body("lists.id", Matchers.equalTo("1"),
-                        "lists.book_title", Matchers.equalTo("Multiplication and Division Grades 3-4 23456"),
+                        "lists.book_title", Matchers.equalTo("nnnnnnnnnnnnnnnnn"),
                         "lists.book_no", Matchers.equalTo("788789"),
                         "lists.isbn_no", Matchers.equalTo(""),
                         "lists.subject", Matchers.equalTo(""),
@@ -58,7 +60,7 @@ public class BooksAPI {
                         "lists.description", Matchers.equalTo(" The duo dump her in a nearby river after a failed attempt to hang her. Tonya survives, and the two men are arrested by Sheriff Ozzie Walls."),
                         "lists.available", Matchers.equalTo("yes"),
                         "lists.is_active", Matchers.equalTo("no"),
-                        "lists.created_at", Matchers.equalTo("2023-08-10 06:52:41"),
+                        "lists.created_at", Matchers.equalTo("2023-08-14 13:02:31"),
                         "lists.updated_at", Matchers.equalTo(null)
                 );
 
