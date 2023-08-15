@@ -20,6 +20,8 @@ public class CommonDB {
     Connection connection;
     Statement statement;
 
+    PreparedStatement preparedStatement;
+
     @Given("Start Communication With WonderWorldCollege DataBase")
     public void start_communication_with_wonder_world_college_data_base() {
         //      connection = DriverManager.getConnection(ConfigReader.getProperty("dbUrl"),ConfigReader.getProperty("dbUsername"),ConfigReader.getProperty("dbPssword"));
@@ -86,6 +88,29 @@ public class CommonDB {
         System.out.println("Number of Unique Students: " + uniqueStudentCount);
 
     }
+
+
+    @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
+    public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
+        try  {
+            String sql = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
+
+                resultSet = statement.executeQuery(sql);
+                    while (resultSet.next()) {
+                        int userId = resultSet.getInt("user_id");
+                        String username = resultSet.getString("username");
+                        String role = resultSet.getString("role");
+
+                        System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
+                    }
+                } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+        }
+
+
 
     @Then("Verify that there are {int} users in the chat_users table with create_staff_id equal to {int}")
     public void verifyThatThereAreUsersInTheChat_usersTableWithCreate_staff_idEqualTo(int count, int id) throws SQLException {
@@ -158,3 +183,4 @@ public class CommonDB {
 
     }
 }
+
