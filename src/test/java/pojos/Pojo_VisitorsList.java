@@ -3,10 +3,12 @@ package pojos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pojo_VisitorsList {
 
     /*
@@ -47,6 +49,9 @@ public class Pojo_VisitorsList {
         "role_id": null
     }
 }
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
      */
 
      private String id;
