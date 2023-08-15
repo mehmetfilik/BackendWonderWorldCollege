@@ -38,7 +38,7 @@ public class VisitorsAPI {
 
 
     @Then("The contents of the list data with id: {string} in the Visitors Response Body should be verified.")
-    public void .theContentsOfTheListDataWithIdInTheVisitorsResponseBodyShouldBeVerified(String id) {
+    public void theContentsOfTheListDataWithIdInTheVisitorsResponseBodyShouldBeVerified(String id) {
         /*
         Pojo_VisitorsList expectedData = new Pojo_VisitorsList
         */
