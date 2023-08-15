@@ -225,7 +225,58 @@ public class CommonDB {
 
         }
     }
+    @Then("List the {string} and {string} of students  with  admission numbers between {int} and {int}")
+    public void listTheAndOfStudentsWithAdmissionNumbersBetweenAnd(String firstName, String lastName, int startNumber, String endNumber) throws SQLException {
+
+        String query = "SELECT firstname, lastname FROM students WHERE admission_number BETWEEN 18001 AND 18010";
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                System.out.println("First Name: " + firstname + ", Last Name: " + lastname);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    @Then("List the {string} and {string} of students  whose  lastname starts with {string}")
+    public void listTheAndOfStudentsWhoseLastnameStartsWith(String mother_name, String mother_occupation, String letter) {
+        String query = "SELECT mother_name, mother_occupation FROM students WHERE lastname LIKE 'T%'";
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                String motherName = resultSet.getString("mother_name");
+                String motherOccupation = resultSet.getString("mother_occupation");
+                System.out.println("Mother Name: " + motherName + ", Mother Occupation: " + motherOccupation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Then("List the {string} of students  whose {string} is either {string} or {string} from highest to lowest")
+    public void listTheOfStudentsWhoseIsEitherOrFromHighestToLowest(String roll_no, String father_occupation, String doctor, String police) {
+
+        String query = "SELECT roll_no FROM students WHERE father_occupation IN ('Doctor', 'Police') ORDER BY roll_no DESC";
+
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                int rollNo = resultSet.getInt("roll_no");
+                System.out.println("Roll No: " + rollNo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
 
 
 
