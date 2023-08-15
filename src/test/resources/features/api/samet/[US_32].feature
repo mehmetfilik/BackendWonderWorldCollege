@@ -1,4 +1,4 @@
-@samet
+
 Feature:[API_US32] As an administrator, I want to be able to delete a Books record from the system through API connection.
 
   Scenario: [API_US32-->TC01] Valid auth info and correct data (id) sent via DELETE to api/booksDelete results in expected 200 status code with response message "Success."
