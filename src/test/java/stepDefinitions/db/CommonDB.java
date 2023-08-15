@@ -305,7 +305,12 @@ public class CommonDB {
         }
     }
 
+
+    @When("a query is executed to retrieve the {int} longest \\(text) values from the email column in the students table")
+    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int arg0) {
+
     }
+}
 
 
 
