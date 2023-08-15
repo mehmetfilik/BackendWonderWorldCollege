@@ -1,4 +1,4 @@
-Feature: [API_US028] As an administrator, I want to access the Books List through API connection.
+ Feature: [API_US028] As an administrator, I want to access the Books List through API connection.
 
   Scenario: [API_US028-->TC01] Valid authorization with a GET request to the api/booksList yields a 200 status code and "Success" as the response message.
 
