@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 Feature: [US_17] As an administrator, I want to be able to delete a Vehicle record from the system through API connection.
 
   Scenario: [US_17-->TC_01] Valid authorization, correct ID in DELETE request to api/vehicleDelete should return 200 status, 'Success' message.
