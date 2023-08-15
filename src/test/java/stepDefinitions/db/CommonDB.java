@@ -186,7 +186,7 @@ public class CommonDB {
     @Then("The name information for the specified id in the topic table should be updatable")
     public void theNameInformationForTheSpecifiedIdInTheTopicTableShouldBeUpdatable() throws SQLException {
         int specifiedId = 124;
-        String newTopicName = "Mustafa ";
+        String newTopicName = "villa tarabya.";
 
            query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
