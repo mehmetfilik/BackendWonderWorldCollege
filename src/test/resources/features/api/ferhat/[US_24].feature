@@ -14,7 +14,6 @@ Feature: [API_US24] As an administrator, I want to access the Student List throu
       | id  | 2     | 200    | Success |
 
 
-  @12
   Scenario Outline: [API_US24-->TC02] When invalid authorization information is sent in a GET request to the api/studentList endpoint, the expected status code is 403, and the message in the response body should be "failed."
 
     Then Postrequest sent with "<key>" and "<value>" must have "<status>" and "<message>"
