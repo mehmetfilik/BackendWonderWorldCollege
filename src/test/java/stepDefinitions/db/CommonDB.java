@@ -211,9 +211,9 @@ public class CommonDB {
         try {
 
 
-            String sql = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
+           query = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
 
-            int rowsInserted = statement.executeUpdate(sql);
+            int rowsInserted = statement.executeUpdate(query);
             if (rowsInserted > 0) {
                 System.out.println("new record added.");
             } else {

@@ -28,7 +28,7 @@
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.attendence_type" active-filter-id="" />
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.books" active-filter-id="" />
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.alumni_students" active-filter-id="" />
-    <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.alumni_events" active-filter-id="" />
+    <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.alumni_events" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.book_issues" active-filter-id="" />
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.certificates" active-filter-id="" />
     <filter-actions connection-id="8da488d4-7657-41c2-a65d-2fb54ca6f98d" dataset="wonderworld_qa.content_types" active-filter-id="" />
