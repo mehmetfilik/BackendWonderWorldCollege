@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
         glue = {"stepDefinitions", "hooks"},
 
 
-        tags = "@ss",
+        tags = "@filik",
 
         dryRun = false
 
