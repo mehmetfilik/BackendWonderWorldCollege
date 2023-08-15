@@ -1,9 +1,11 @@
 package stepDefinitions.api;
 
+import com.sun.net.httpserver.Authenticator;
 import hooks.api.HooksAPI;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
@@ -20,6 +22,8 @@ public class AlumniAPI {
     Response response;
 
     JSONObject reqBody;
+
+    String updatedId;
 
     @Then("The contents of the list data with id: {string} in the Alumni Response Body should be verified.")
     public void the_contents_of_the_list_data_with_id_in_the_alumni_response_body_should_be_verified(String id) {
@@ -262,19 +266,24 @@ public class AlumniAPI {
 
         JSONObject reqBody = new JSONObject();
 
+        /*
+         "id": 3,
+        "student_id": "29",
+        "current_email": "deneme@deneme.com",
+        "current_phone": "9809967867",
+        "occupation": "",
+        "address": "",
+        "photo": ""
+         */
+
 
         reqBody.put("id", id);                         //  <--burda guncelleyecegimiz body nin id sini girmemiz gerek
-        reqBody.put("purpose", "Principal Meeting");
-        reqBody.put("purpose", "Principal Meeting");
-        reqBody.put("name", "fero");
-        reqBody.put("contact", "9808678686112");
-        reqBody.put("id_proof", "312121");
-        reqBody.put("no_of_people", "13");
-        reqBody.put("date", "2023-03-16");
-        reqBody.put("in_time", "06:00 PM");
-        reqBody.put("out_time", "06:30 PM");
-        reqBody.put("note", "PTM meeting");
-
+        reqBody.put("student_id", "28");
+        reqBody.put("current_email", "sad");
+        reqBody.put("current_phone", "09967867");
+        reqBody.put( "occupation", "das");
+        reqBody.put("address", "fe");
+        reqBody.put("photo", "de");
 
 
         if (str.equalsIgnoreCase("Valid")){
@@ -287,26 +296,44 @@ public class AlumniAPI {
                     .patch(CommonAPI.fullPath);
 
             response.prettyPrint();
-        }else {
+
+            response
+                    .then()
+                    .assertThat()
+                    .statusCode(status)
+                    .contentType(ContentType.JSON)
+                    .body("message", Matchers.equalTo(message),updateId,Matchers.equalTo(id));
+
+            String responseBody = response.getBody().asString();
+            JsonPath respJP = new JsonPath(responseBody);
+            updatedId = respJP.getString(updateId);
+
+            System.out.println(updatedId);
+
+        } else {
             response = given()
                     .spec(spec)
                     .contentType(ContentType.JSON)
-                    .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                    .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
                     .when()
                     .body(reqBody.toString())
                     .patch(CommonAPI.fullPath);
 
             response.prettyPrint();
+
+            response
+                    .then()
+                    .assertThat()
+                    .statusCode(status)
+                    .contentType(ContentType.JSON)
+                    .body("message", Matchers.equalTo(message));
+
         }
 
-        response
-                .then()
-                .assertThat()
-                .statusCode(status)
-                .contentType(ContentType.JSON)
-                .body("message", Matchers.equalTo(message),updateId,Matchers.equalTo("29"));
 
     }
+
+
 
     @When("I want to create a new Alumni record through API connection")
     public void ıWantToCreateANewAlumniRecordThroughAPIConnection() {
@@ -413,4 +440,53 @@ public class AlumniAPI {
 */
 
     }
-}
+
+    @Then("The contents of the list data with id: {string} in the AlumniId Response Body should be verified.")
+    public void theContentsOfTheListDataWithIdInTheAlumniIdResponseBodyShouldBeVerified(String id) {
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("id", id);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(CommonAPI.fullPath);
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo("Success"),"lists.id",Matchers.equalTo(id));
+    }
+
+    @Then("After Alumni updating Postrequest sent with {string} must have status: {int} and message: {string}")
+    public void afterAlumniUpdatingPostrequestSentWithMustHaveStatusAndMessage(String id, int status, String message) {
+
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put(id, updatedId);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(CommonAPI.fullPath);
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo("Success"),"lists.id",Matchers.equalTo(updatedId));
+    }
+
+
+    }
+
