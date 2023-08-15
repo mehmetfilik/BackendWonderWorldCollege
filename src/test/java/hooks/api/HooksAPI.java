@@ -15,24 +15,23 @@ public class HooksAPI {
     public static String token;
     public static String invalidToken;
 
-    @Before (order=0)
-    public void setUp(){
+    public static String tokenTeacher;
+    public static String tokenInvalidTeacher;
+
+    @Before(order = 0)
+    public void setUp() {
 
         spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
 
     }
 
-    @Before (order=1)
-    public void beforeGenerateToken(){
+    @Before(order = 1)
+    public void beforeGenerateToken() {
 
         token = Authentication.generateToken();
-        invalidToken= Authentication.generateInvalidToken();
+        invalidToken = Authentication.generateInvalidToken();
 
+        tokenTeacher = Authentication.teacherGenerateToken();
+        tokenInvalidTeacher = Authentication.teacherGenerateInvalidToken();
     }
-
-
-
-
-
-
 }

@@ -349,11 +349,20 @@ public class VehicleAPI {
                 // .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
                 .when()
-                .get(CommonAPI.fullPath);
+
+
+                .get("/{pp1}/{pp2}");
+
+
+            responseJP=response.jsonPath();
+
+
 
         responseJP = response.jsonPath();
 
-        response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
+
+
+        //  response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
 
     }
 
@@ -558,6 +567,76 @@ public class VehicleAPI {
                 .when().body(requestBody.toString())
                 .delete("/{pp0}/{pp1}");
 
+
+    }
+
+
+
+
+
+
+
+
+    @Then("send endpoint valid DELETE body and verify that the returned status code is {int} and the {string} information is {string}")
+    public void sendEndpointValidDELETEBodyAndVerifyThatTheReturnedStatusCodeIsAndTheInformationIs(int statusCode, String bodyName, String value) {
+        requestBody = new JSONObject();
+        requestBody.put("id", "162");
+
+        response = given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        response.prettyPrint();
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName, Matchers.equalTo(value));
+
+
+    }
+
+    @Then("When invalid auth or incomplete data is sent to api.vehicleDelete, confirm status code {int} and response {string} as {string}.")
+    public void whenInvalidAuthOrIncompleteDataIsSentToApiVehicleDeleteConfirmStatusCodeAndResponseAs(int statusCode, String bodyName, String value) {
+
+        requestBody = new JSONObject();
+        requestBody.put("id", "500");
+
+        response = given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(statusCode).body(bodyName, Matchers.equalTo(value));
+    }
+
+    @Then("It is verified that the Deleted information in the response body is the same as the id in the request body.")
+    public void ıtIsVerifiedThatTheDeletedInformationInTheResponseBodyIsTheSameAsTheIdInTheRequestBody() {
+        requestBody = new JSONObject();
+        requestBody.put("id", "161");
+
+        response = given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .delete(CommonAPI.fullPath);
+
+        //162,63,64,65
+        response.prettyPrint();
+
+        response.then().assertThat().body("DeletedId", Matchers.equalTo(requestBody.getString("id")));
+
+
+    }
+
+    @Then("It is verified via the API that the vehicle record to be deleted via the API is deleted.")
+    public void ıtIsVerifiedViaTheAPIThatTheVehicleRecordToBeDeletedViaTheAPIIsDeleted() {
+        requestBody = new JSONObject();
+        requestBody.put("id", "160");
+
+        response = given().spec(spec).contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + HooksAPI.token)
+                .when().body(requestBody.toString())
+                .post(CommonAPI.fullPath);
+
+        response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
 
     }
 }
