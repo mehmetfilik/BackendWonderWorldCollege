@@ -69,14 +69,26 @@ public class VisitorsPurposeAPI {
                                         .get(url);
         response.prettyPrint();
 
+        int neuId = Integer.parseInt(id);
         response.then()
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("lists.id", Matchers.equalTo("1"),
+                .body("lists.id", Matchers.equalTo(id),
+                        "lists.visitors_purpose",Matchers.equalTo("Parent Teacher Meeting"),
+                        "lists.description",Matchers.equalTo(""),
+                        "lists.created_at",Matchers.equalTo("2023-01-18 01:07:12")
+                );
+        /*
+        response.then()
+                .assertThat()
+                .contentType(ContentType.JSON)
+                .body("lists.id", Matchers.equalTo(id),
                 "lists.visitors_purpose",Matchers.equalTo("Marketing "),
                         "lists.description",Matchers.equalTo(""),
                         "lists.created_at",Matchers.equalTo("2023-01-18 01:07:12")
                 );
+
+         */
 
 /*
         Pojo_VisitorsPurpose data = new Pojo_VisitorsPurpose(
@@ -335,6 +347,155 @@ public class VisitorsPurposeAPI {
 
         response2.prettyPrint();
 
+    }
+
+    @Given("Creating a new record with postrequest and verifying that it has not been deleted with invalid authorization")
+    public void creatingANewRecordWithPostrequestAndVerifyingThatItHasNotBeenDeletedWithInvalidAuthorization() {
+        String urlPost ="https://qa.wonderworldcollege.com/api/visitorsPurposeAdd";
+        String key1 = "visitors_purpose";
+        String key2 = "description";
+        String value1 = "Veli Ziyareti";
+        String value2 = "Delete icin Kayit";
+        reqBody = new JSONObject();
+
+        reqBody.put(key1,value1);
+        reqBody.put(key2,value2);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(urlPost);
+
+        int intStatus = 403;
+        String message="failed";
+
+        response.prettyPrint();
+
+        /*
+        response
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+         */
+
+        HashMap<String,Object> respMap = response.as(HashMap.class);
+
+        System.out.println("respMap"+respMap.toString());
+
+        addId = respMap.get("addId").toString();
+        int addIdint = Integer.parseInt(addId);
+        System.out.println(addId);
+
+        // Delete islemine geciyoruz
+        String urlDelete = "https://qa.wonderworldcollege.com/api/visitorsPurposeDelete";
+        reqBody.put("id",addIdint);
+        Response response2 =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + invalidToken)
+                .when()
+                .body(reqBody.toString())
+                .delete(urlDelete);
+// Assertion
+        response2
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+        response2.prettyPrint();
+
+    }
+
+    @Given("Checking for a deleted record")
+    public void checkingForADeletedRecord() {
+        String urlPost ="https://qa.wonderworldcollege.com/api/visitorsPurposeAdd";
+        String key1 = "visitors_purpose";
+        String key2 = "description";
+        String value1 = "Veli Ziyareti";
+        String value2 = "Delete icin Kayit";
+        reqBody = new JSONObject();
+
+        reqBody.put(key1,value1);
+        reqBody.put(key2,value2);
+
+        response =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(urlPost);
+
+        int intStatus = 200;
+        String message="Success";
+
+        response.prettyPrint();
+
+        /*
+        response
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+         */
+
+        HashMap<String,Object> respMap = response.as(HashMap.class);
+
+        System.out.println("respMap"+respMap.toString());
+
+        addId = respMap.get("addId").toString();
+        int addIdint = Integer.parseInt(addId);
+        System.out.println(addId);
+
+        // Delete islemine geciyoruz
+        String urlDelete = "https://qa.wonderworldcollege.com/api/visitorsPurposeDelete";
+        reqBody.put("id",addIdint);
+        Response response2 =  given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .delete(urlDelete);
+// Assertion
+        response2
+                .then()
+                .assertThat()
+                .statusCode(intStatus)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+
+        response2.prettyPrint();
+
+        // API kontrol
+
+        reqBody = new JSONObject();
+
+        reqBody.put("id",addIdint);
+        response=given().contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + token)
+                .when()
+                .body(reqBody.toString())
+                .post(urlPost);
+        response.prettyPrint();
+
+        String newid=addIdint+"";
+        response.then()
+                .assertThat()
+                .statusCode(403)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo("failed")
+                );
     }
 
 
