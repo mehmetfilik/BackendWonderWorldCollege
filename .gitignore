@@ -40,3 +40,5 @@ build/
 *.png
 
 .idea/vcs.xml
+.idea/dbnavigator.xml
+

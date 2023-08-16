@@ -350,9 +350,16 @@ public class VehicleAPI {
                 .headers("Authorization", "Bearer " + HooksAPI.invalidToken)
                 .when()
 
-                .get(CommonAPI.fullPath);
+
+                .get("/{pp1}/{pp2}");
+
+
+            responseJP=response.jsonPath();
+
+
 
         responseJP = response.jsonPath();
+
 
 
         //  response.then().assertThat().statusCode(403).body("message", Matchers.equalTo("failed"));
@@ -562,6 +569,10 @@ public class VehicleAPI {
 
 
     }
+
+
+
+
 
 
 

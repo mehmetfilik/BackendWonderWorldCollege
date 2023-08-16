@@ -90,6 +90,85 @@ public class CommonDB {
     }
 
 
+
+    @Then("List the email addresses of records in the online_admissions table where the firstname contains the word {string}")
+    public void listTheEmailAddressesOfRecordsInTheOnline_admissionsTableWhereTheFirstnameContainsTheWord(String al) throws SQLException {
+
+        String query = "SELECT email " +
+                "FROM online_admissions " +
+                "WHERE firstname LIKE '%al%'";
+        resultSet = statement.executeQuery(query);
+
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String email = null;
+            try {
+                email = resultSet.getString("email");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Email: " + email);
+        }
+    }
+
+    @Then("List the book titles of books in the books table where the author data is {string} or {string}.")
+    public void listTheBookTitlesOfBooksInTheBooksTableWhereTheAuthorDataIsOr(String RubinaMalik, String MienAli) throws SQLException {
+
+        String query = "SELECT book_title " +
+                "FROM books " +
+                "WHERE author = 'Rubina malik' OR author = 'Mien  Ali'";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String title = resultSet.getString("book_title");
+            System.out.println("Book Title: " + title);
+        }
+    }
+
+
+    @Then("List the books from the books table where the quantity qty value is between {string} and {string}.")
+    public void listTheBooksFromTheBooksTableWhereTheQuantityQtyValueIsBetweenAnd(String arg0, String arg1) throws SQLException {
+
+        String query = "SELECT * " +
+                "FROM books " +
+                "WHERE qty " +
+                "BETWEEN 100 AND 500;";
+        resultSet = statement.executeQuery(query);
+
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String title = null;
+            try {
+                title = resultSet.getString("book_title");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String author = null;
+            try {
+                author = resultSet.getString("author");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            int quantity = 0;
+            try {
+                quantity = resultSet.getInt("qty");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("book_title: " + title + ", Author: " + author + ", Qty: " + quantity);
+        }
+
+    }
+
+
     @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
     public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
         try  {
@@ -186,7 +265,7 @@ public class CommonDB {
     @Then("The name information for the specified id in the topic table should be updatable")
     public void theNameInformationForTheSpecifiedIdInTheTopicTableShouldBeUpdatable() throws SQLException {
         int specifiedId = 124;
-        String newTopicName = "Mustafa ";
+        String newTopicName = "villa tarabya.";
 
            query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
@@ -211,9 +290,9 @@ public class CommonDB {
         try {
 
 
-            String sql = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
+           query = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
 
-            int rowsInserted = statement.executeUpdate(sql);
+            int rowsInserted = statement.executeUpdate(query);
             if (rowsInserted > 0) {
                 System.out.println("new record added.");
             } else {
@@ -225,6 +304,7 @@ public class CommonDB {
 
         }
     }
+
     @Then("List the {string} and {string} of students  with  admission numbers between {int} and {int}")
     public void listTheAndOfStudentsWithAdmissionNumbersBetweenAnd(String firstName, String lastName, int startNumber, String endNumber) throws SQLException {
 
@@ -240,7 +320,16 @@ public class CommonDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+
+    @When("a query is executed to retrieve the {int} longest \\(text) values from the email column in the students table")
+    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int arg0) {
+
+
     }
+}
+
 
 
     @Then("List the {string} and {string} of students  whose  lastname starts with {string}")
