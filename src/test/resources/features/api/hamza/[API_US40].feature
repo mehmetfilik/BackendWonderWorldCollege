@@ -17,7 +17,7 @@ Feature: As an administrator, I want to create a new visitor purpose record thro
     Then Postrequest sent with "inValid" Authorization "<type>", "<title>", "<description>", "<slug>" must have <status> and "<message>"
     Examples:
       | type           | title      | description       | slug          | status | message |
-      | testtype3      | testtitle3 | testdescription3  | testslug3     | 200    | Success |
+      | testtype3      | testtitle3 | testdescription3  | testslug3     | 403    | failed |
 
   @apiUS40_3
   Scenario Outline: [API_US40-->TC03] Verify Creation of New Notice Record Given a new notice record is created through the API

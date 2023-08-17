@@ -60,29 +60,27 @@ public class NoticeListsAPI {
         response.then()
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("lists.id", Matchers.equalTo("34"),
-                        "lists.type", Matchers.equalTo("notice "),
-                        "lists.slug", Matchers.equalTo("wonder-world-college-receives-accreditation-for-its-outstanding-business-program"),
-                        "lists.url", Matchers.equalTo("read/wonder-world-college-receives-accreditation-for-its-outstanding-business-program"),
-                        "lists.title", Matchers.equalTo("Wonder World College Receives Accreditation for its Outstanding Business Program"),
-                        "lists.date", Matchers.equalTo("2023-07-04"),
-                        "lists.event_start", Matchers.equalTo(""),
-                        "lists.event_end", Matchers.equalTo(""),
-                        "lists.event_venue", Matchers.equalTo(""),
-                        "lists.description", Matchers.equalTo("Wonder World College's Business Program receives well-deserved recognition\n" +
-                                "             as it receives accreditation from a renowned accrediting body. This accreditation affirms\n" +
-                                "              the program's exceptional quality, rigorous curriculum, and industry-relevant approach,\n" +
-                                "               ensuring that students receive a top-notch business education. Wonder World College takes\n" +
-                                "                pride in providing students with the knowledge and skills necessary for success in the dynamic\n" +
-                                "                 business world."),
+                .body("lists.id", Matchers.equalTo("31"),
+                        "lists.type", Matchers.equalTo("notice"),
+                        "lists.slug", Matchers.equalTo("wonder-world-college-wins-national-stem-competition-for-innovative-robotics-design"),
+                        "lists.url", Matchers.equalTo("read/wonder-world-college-wins-national-stem-competition-for-innovative-robotics-design"),
+                        "lists.title", Matchers.equalTo("Wonder World College Wins National STEM Competition for Innovative Robotics Design"),
+                        "lists.date", Matchers.equalTo("2023-09-01"),
+                        "lists.event_start", Matchers.equalTo(null),
+                        "lists.event_end", Matchers.equalTo(null),
+                        "lists.event_venue", Matchers.equalTo(null),
+                        "lists.description", Matchers.equalTo("Wonder World College's Robotics Team emerged victorious at the prestigious National" +
+                                " STEM Competition, showcasing their exceptional skills and innovative designs. Their cutting-edge robotics project impressed " +
+                                "the judges, earning them top honors among fierce competitors from across the country. This achievement highlights Wonder World " +
+                                "College's commitment to excellence in STEM education and fostering a culture of innovation."),
                         "lists.is_active", Matchers.equalTo("no"),
-                        "lists.created_at", Matchers.equalTo("2023-05-30 17:47:20"),
+                        "lists.created_at", Matchers.equalTo("2023-07-19 08:00:49"),
                         "lists.meta_title", Matchers.equalTo(""),
                         "lists.meta_keyword", Matchers.equalTo(""),
                         "lists.feature_image", Matchers.equalTo(""),
-                        "lists.publish_date", Matchers.equalTo(""),
+                        "lists.publish_date", Matchers.equalTo(null),
                         "lists.publish", Matchers.equalTo("0"),
-                        "lists.sidebar", Matchers.equalTo("")
+                        "lists.sidebar", Matchers.equalTo(null)
                 );
 
 
@@ -104,22 +102,21 @@ public class NoticeListsAPI {
         response.then()
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("lists.id", Matchers.equalTo("33"),
+                .body("lists.id", Matchers.equalTo("31"),
                         "lists.type", Matchers.equalTo("notice"),
-                        "lists.slug", Matchers.equalTo("students-from-wonder-world-college-honored-at-regional-art-exhibition"),
-                        "lists.url", Matchers.equalTo("read/students-from-wonder-world-college-honored-at-regional-art-exhibition"),
-                        "lists.title", Matchers.equalTo("Students from Wonder World College Honored at Regional Art Exhibition"),
-                        "lists.date", Matchers.equalTo("2023-08-07"),
+                        "lists.slug", Matchers.equalTo("wonder-world-college-wins-national-stem-competition-for-innovative-robotics-design"),
+                        "lists.url", Matchers.equalTo("read/wonder-world-college-wins-national-stem-competition-for-innovative-robotics-design"),
+                        "lists.title", Matchers.equalTo("Wonder World College Wins National STEM Competition for Innovative Robotics Design"),
+                        "lists.date", Matchers.equalTo("2023-09-01"),
                         "lists.event_start", Matchers.equalTo(null),
                         "lists.event_end", Matchers.equalTo(null),
                         "lists.event_venue", Matchers.equalTo(null),
-                        "lists.description", Matchers.equalTo("Talented artists from Wonder World College showcased their artistic " +
-                                "prowess at the esteemed Regional Art Exhibition, earning recognition and accolades." +
-                                " Their captivating artwork captivated the audience and impressed the judges, solidifying" +
-                                " Wonder World College's reputation as a nurturing environment for artistic expression." +
-                                " These talented students continue to push boundaries and inspire others through their creative endeavors."),
+                        "lists.description", Matchers.equalTo("Wonder World College's Robotics Team emerged victorious at the prestigious" +
+                                " National STEM Competition, showcasing their exceptional skills and innovative designs. Their cutting-edge robotics " +
+                                "project impressed the judges, earning them top honors among fierce competitors from across the country. This achievement " +
+                                "highlights Wonder World College's commitment to excellence in STEM education and fostering a culture of innovation."),
                         "lists.is_active", Matchers.equalTo("no"),
-                        "lists.created_at", Matchers.equalTo("2023-07-19 08:00:19"),
+                        "lists.created_at", Matchers.equalTo("2023-07-19 08:00:49"),
                         "lists.meta_title", Matchers.equalTo(""),
                         "lists.meta_description", Matchers.equalTo(""),
                         "lists.meta_keyword", Matchers.equalTo(""),
