@@ -1,4 +1,3 @@
-
 Feature:[API_US31] As an administrator, I want to update the registered Books information in the system through API connection.
 
   Scenario: [API_US31-->TC01] Valid auth info and correct data (book info) sent via PATCH to api/booksUpdate results in expected 200 status code with response message "Success.
