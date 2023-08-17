@@ -19,7 +19,7 @@ public class BooksAPI {
 
     JSONObject reqBody;
 
-    String addId;
+    public static String addId;
 
     JsonPath resJP;
 
@@ -103,6 +103,12 @@ public class BooksAPI {
                 .statusCode(intStatus)
                 .contentType(ContentType.JSON)
                 .body("message", Matchers.equalTo(message));
+
+        String responseBody = response.getBody().asString();
+        JsonPath respJP = new JsonPath(responseBody);
+        addId = respJP.getString("addId");
+
+        System.out.println(addId);
     }
 
     @Then("Postrequest with invalid Authorization sent with {string},{string},{string},{string},{string},{string},{string},{string},{string},{string},{string},must have {string} and {string}")

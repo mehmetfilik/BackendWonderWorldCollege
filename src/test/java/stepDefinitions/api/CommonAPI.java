@@ -8,6 +8,7 @@ import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -160,51 +161,100 @@ public class CommonAPI {
     public void with_authorization_is_sent_delete_request_must_id_delete_id_key_status_and_message(String str, String id, String deleteId, Integer status, String message) {
         JSONObject reqBody = new JSONObject();
 
-        reqBody.put("id", id);
+if (BooksAPI.addId== null || BooksAPI.addId == "0" ){
+    reqBody.put("id", id);
 
 
-        if (str.equalsIgnoreCase("Valid")){
-            response = given()
-                    .spec(spec)
-                    .contentType(ContentType.JSON)
-                    .headers("Authorization","Bearer " + HooksAPI.token)
-                    .when()
-                    .body(reqBody.toString())
-                    .delete(fullPath);
+    if (str.equalsIgnoreCase("Valid")){
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + HooksAPI.token)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
 
-            response.prettyPrint();
+        response.prettyPrint();
 
-            String responseBody = response.getBody().asString();
-            JsonPath respJP = new JsonPath(responseBody);
-            deletedId = respJP.getString(deleteId);
+        String responseBody = response.getBody().asString();
+        JsonPath respJP = new JsonPath(responseBody);
+        deletedId = respJP.getString(deleteId);
 
-            System.out.println(deletedId);
+        System.out.println(deletedId);
 
-            response
-                    .then()
-                    .assertThat()
-                    .statusCode(status)
-                    .contentType(ContentType.JSON)
-                    .body("message", Matchers.equalTo(message), deleteId,Matchers.equalTo(id));
+        response
+                .then()
+                .assertThat()
+                .statusCode(status)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message), deleteId,Matchers.equalTo(id));
 
-        }else {
-            response = given()
-                    .spec(spec)
-                    .contentType(ContentType.JSON)
-                    .headers("Authorization","Bearer " + HooksAPI.invalidToken)
-                    .when()
-                    .body(reqBody.toString())
-                    .delete(fullPath);
+    }else {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
 
-            response.prettyPrint();
+        response.prettyPrint();
 
-            response
-                    .then()
-                    .assertThat()
-                    .statusCode(status)
-                    .contentType(ContentType.JSON)
-                    .body("message", Matchers.equalTo(message));
-        }
+        response
+                .then()
+                .assertThat()
+                .statusCode(status)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+    }
+}else {
+    reqBody.put("id", BooksAPI.addId);
+
+
+    if (str.equalsIgnoreCase("Valid")){
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + HooksAPI.token)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
+
+        response.prettyPrint();
+
+        String responseBody = response.getBody().asString();
+        JsonPath respJP2 = new JsonPath(responseBody);
+        deletedId = respJP2.getString(deleteId);
+
+        System.out.println(deletedId);
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(status)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message), deleteId,Matchers.equalTo(BooksAPI.addId));
+
+    }else {
+        response = given()
+                .spec(spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization","Bearer " + HooksAPI.invalidToken)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
+
+        response.prettyPrint();
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(status)
+                .contentType(ContentType.JSON)
+                .body("message", Matchers.equalTo(message));
+    }
+}
+
 
 
     }
