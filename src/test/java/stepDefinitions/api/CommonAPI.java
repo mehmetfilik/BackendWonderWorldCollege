@@ -4,6 +4,7 @@ package stepDefinitions.api;
 import hooks.api.HooksAPI;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -207,7 +208,6 @@ public class CommonAPI {
 
 
     }
-
 }
 
 

@@ -171,24 +171,22 @@ public class CommonDB {
 
     @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
     public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
-        try  {
+        try {
             query = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
 
-                resultSet = statement.executeQuery(query);
-                    while (resultSet.next()) {
-                        int userId = resultSet.getInt("user_id");
-                        String username = resultSet.getString("username");
-                        String role = resultSet.getString("role");
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String role = resultSet.getString("role");
 
-                        System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
-                    }
-                } catch (SQLException ex) {
+                System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
+            }
+        } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
     }
-
-
 
 
     @Then("Verify that there are {int} users in the chat_users table with create_staff_id equal to {int}")
@@ -267,18 +265,18 @@ public class CommonDB {
         int specifiedId = 124;
         String newTopicName = "villa tarabya.";
 
-           query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
+        query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
-            int rowsUpdated = statement.executeUpdate(query);
-            if (rowsUpdated > 0) {
-                System.out.println("Registry update successful.");
-            } else {
-                System.out.println("Registry update failed.");
-            }
-
-            statement.close();
-
+        int rowsUpdated = statement.executeUpdate(query);
+        if (rowsUpdated > 0) {
+            System.out.println("Registry update successful.");
+        } else {
+            System.out.println("Registry update failed.");
         }
+
+        statement.close();
+
+    }
 
     @Then("A new record should be added to the transport_route table.")
     public void aNewRecordShouldBeAddedToTheTransport_routeTable() {
@@ -302,6 +300,35 @@ public class CommonDB {
             statement.close();
         } catch (SQLException e) {
 
+        }
+    }
+
+
+
+    @When("The top {int} individuals with the highest amount value are listed from the Income table")
+    public void theTopIndividualsWithTheHighestAmountValueAreListedFromTheIncomeTable(int arg0) throws SQLException {
+        query = "SELECT id, name FROM income ORDER BY amount DESC LIMIT 10";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
+
+        }
+    }
+
+    @When("The top {int} employees with the longest tenure are listed by their respective departments from the staff table in the database.")
+    public void theTopEmployeesWithTheLongestTenureAreListedByTheirRespectiveDepartmentsFromTheStaffTableInTheDatabase(int arg0) throws SQLException {
+        query = "SELECT id, employee_id, name, surname, department, designation, date_of_joining, DATEDIFF(NOW(), date_of_joining) AS tenure_days FROM staff WHERE department IS NOT NULL ORDER BY department, tenure_days DESC LIMIT 3";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
         }
     }
 
@@ -368,6 +395,21 @@ public class CommonDB {
 }
 
 
+
+    @When("The email, salary, and phone information of the oldest employee is displayed.")
+    public void theEmailSalaryAndPhoneInformationOfTheOldestEmployeeIsDisplayed() throws SQLException {
+        query = "SELECT email, contact_no AS phone, basic_salary AS salary FROM staff WHERE dob = (SELECT MAX(dob) FROM staff)";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            double salary = resultSet.getDouble("salary");
+
+            System.out.println("Email: " + email + ", Phone: " + phone + ", Salary: " + salary);
+        }
+        }
+    }
 
 
 
