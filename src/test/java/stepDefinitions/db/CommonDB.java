@@ -8,7 +8,9 @@ import org.junit.Assert;
 import utilities.ConfigReader;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static utilities.DB_Utils.*;
@@ -171,24 +173,22 @@ public class CommonDB {
 
     @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
     public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
-        try  {
+        try {
             query = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
 
-                resultSet = statement.executeQuery(query);
-                    while (resultSet.next()) {
-                        int userId = resultSet.getInt("user_id");
-                        String username = resultSet.getString("username");
-                        String role = resultSet.getString("role");
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String role = resultSet.getString("role");
 
-                        System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
-                    }
-                } catch (SQLException ex) {
+                System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
+            }
+        } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
     }
-
-
 
 
     @Then("Verify that there are {int} users in the chat_users table with create_staff_id equal to {int}")
@@ -267,18 +267,18 @@ public class CommonDB {
         int specifiedId = 124;
         String newTopicName = "villa tarabya.";
 
-           query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
+        query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
-            int rowsUpdated = statement.executeUpdate(query);
-            if (rowsUpdated > 0) {
-                System.out.println("Registry update successful.");
-            } else {
-                System.out.println("Registry update failed.");
-            }
-
-            statement.close();
-
+        int rowsUpdated = statement.executeUpdate(query);
+        if (rowsUpdated > 0) {
+            System.out.println("Registry update successful.");
+        } else {
+            System.out.println("Registry update failed.");
         }
+
+        statement.close();
+
+    }
 
     @Then("A new record should be added to the transport_route table.")
     public void aNewRecordShouldBeAddedToTheTransport_routeTable() {
@@ -305,6 +305,57 @@ public class CommonDB {
         }
     }
 
+    //hamza
+    @When("a query is executed to retrieve the {int} longest \\(text) values from the email column in the students table")
+    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int number) throws SQLException {
+        List<String> longestEmails = new ArrayList<>();
+        //Statement statement = connection.createStatement();
+
+        String query = "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT " + number;
+
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            longestEmails.add(email);
+        }
+
+        // resultSet.close();
+        // statement.close();
+        // connection.close();
+
+        // Do something with longestEmails, such as printing or further processing
+        for (String email : longestEmails) {
+            System.out.println(email);
+        }
+    }
+
+    @When("The top {int} individuals with the highest amount value are listed from the Income table")
+    public void theTopIndividualsWithTheHighestAmountValueAreListedFromTheIncomeTable(int arg0) throws SQLException {
+        query = "SELECT id, name FROM income ORDER BY amount DESC LIMIT 10";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
+
+        }
+    }
+
+    @When("The top {int} employees with the longest tenure are listed by their respective departments from the staff table in the database.")
+    public void theTopEmployeesWithTheLongestTenureAreListedByTheirRespectiveDepartmentsFromTheStaffTableInTheDatabase(int arg0) throws SQLException {
+        query = "SELECT id, employee_id, name, surname, department, designation, date_of_joining, DATEDIFF(NOW(), date_of_joining) AS tenure_days FROM staff WHERE department IS NOT NULL ORDER BY department, tenure_days DESC LIMIT 3";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
+        }
+    }
+
     @Then("List the {string} and {string} of students  with  admission numbers between {int} and {int}")
     public void listTheAndOfStudentsWithAdmissionNumbersBetweenAnd(String firstName, String lastName, int startNumber, String endNumber) throws SQLException {
 
@@ -320,13 +371,41 @@ public class CommonDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    @Then("I display the name information of the highest expense in the expenses table")
+    public void iDisplayTheNameInformationOfTheHighestExpenseInTheExpensesTable() throws SQLException {
+       // Statement statement = connection.createStatement();
+        String query = "SELECT name FROM expenses ORDER BY amount DESC LIMIT 1";
 
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) {
+            String expenseName = resultSet.getString("name");
+            System.out.println("Name of the highest expense: " + expenseName);
+        } else {
+            System.out.println("No expenses found.");
+        }
 
-
+        //resultSet.close();
+       // statement.close();
+        //connection.close();
     }
 
 
+    @When("I add a new call content to the general_calls table")
+    public void iAddANewCallContentToTheGeneral_callsTable() throws SQLException {
+        String callContent = "This is a new call content.";
+
+        //String insertQuery = "INSERT INTO general_calls (content) VALUES (?)";
+        String insertQuery= "INSERT INTO wonderworld_qa2.general_calls (name, contact,date, description,follow_up_date,call_duration, note,call_type) VALUES ('test01','test01','2023-08-16', 'testdescription','2023-08-19','test duration','testnote','testtype');";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, callContent);
+            preparedStatement.executeUpdate();
+        }
+
+
+        //connection.close();
+    }
 
 
     @Then("List the {string} and {string} of students  whose  lastname starts with {string}")
@@ -361,6 +440,7 @@ public class CommonDB {
             e.printStackTrace();
         }
     }
+
 
     @Then("A specific {string} = {string} entry should be deletable from the visitors_book table")
     public void aSpecificEntryShouldBeDeletableFromTheVisitors_bookTable(String data, String content) throws SQLException {
@@ -428,9 +508,22 @@ public class CommonDB {
 
 
     }
-}
 
 
+    @When("The email, salary, and phone information of the oldest employee is displayed.")
+    public void theEmailSalaryAndPhoneInformationOfTheOldestEmployeeIsDisplayed() throws SQLException {
+        query = "SELECT email, contact_no AS phone, basic_salary AS salary FROM staff WHERE dob = (SELECT MAX(dob) FROM staff)";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            double salary = resultSet.getDouble("salary");
+
+            System.out.println("Email: " + email + ", Phone: " + phone + ", Salary: " + salary);
+        }
+        }
+    }
 
 
 
