@@ -1,6 +1,6 @@
-
+@filik
 Feature: [API_US37] As an administrator, I want to be able to delete a Visitors' record from the system through API connection.
-  @del
+
   Scenario: [API_US37-->TC01] Confirm DELETE request: valid auth, correct data (id), 200 status, "Success" message at 'api/visitorsDelete'.
 
     * User sets "api/visitorsDelete" path param.
