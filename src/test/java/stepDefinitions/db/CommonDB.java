@@ -92,26 +92,103 @@ public class CommonDB {
     }
 
 
-    @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
-    public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
-        try  {
-            query = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
 
-                resultSet = statement.executeQuery(query);
-                    while (resultSet.next()) {
-                        int userId = resultSet.getInt("user_id");
-                        String username = resultSet.getString("username");
-                        String role = resultSet.getString("role");
+    @Then("List the email addresses of records in the online_admissions table where the firstname contains the word {string}")
+    public void listTheEmailAddressesOfRecordsInTheOnline_admissionsTableWhereTheFirstnameContainsTheWord(String al) throws SQLException {
 
-                        System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
-                    }
-                } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        String query = "SELECT email " +
+                "FROM online_admissions " +
+                "WHERE firstname LIKE '%al%'";
+        resultSet = statement.executeQuery(query);
+
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String email = null;
+            try {
+                email = resultSet.getString("email");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Email: " + email);
+        }
+    }
+
+    @Then("List the book titles of books in the books table where the author data is {string} or {string}.")
+    public void listTheBookTitlesOfBooksInTheBooksTableWhereTheAuthorDataIsOr(String RubinaMalik, String MienAli) throws SQLException {
+
+        String query = "SELECT book_title " +
+                "FROM books " +
+                "WHERE author = 'Rubina malik' OR author = 'Mien  Ali'";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String title = resultSet.getString("book_title");
+            System.out.println("Book Title: " + title);
+        }
+    }
+
+
+    @Then("List the books from the books table where the quantity qty value is between {string} and {string}.")
+    public void listTheBooksFromTheBooksTableWhereTheQuantityQtyValueIsBetweenAnd(String arg0, String arg1) throws SQLException {
+
+        String query = "SELECT * " +
+                "FROM books " +
+                "WHERE qty " +
+                "BETWEEN 100 AND 500;";
+        resultSet = statement.executeQuery(query);
+
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String title = null;
+            try {
+                title = resultSet.getString("book_title");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            String author = null;
+            try {
+                author = resultSet.getString("author");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            int quantity = 0;
+            try {
+                quantity = resultSet.getInt("qty");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("book_title: " + title + ", Author: " + author + ", Qty: " + quantity);
         }
 
     }
 
 
+    @Then("Sort the contents with role=parent in the users table according to the user id from largest to smallest.")
+    public void sortTheContentsWithRoleParentInTheUsersTableAccordingToTheUserIdFromLargestToSmallest() {
+        try {
+            query = "SELECT * FROM users WHERE role = 'parent' ORDER BY user_id DESC";
+
+            resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String role = resultSet.getString("role");
+
+                System.out.println("User ID: " + userId + ", Username: " + username + ", Role: " + role);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
 
 
     @Then("Verify that there are {int} users in the chat_users table with create_staff_id equal to {int}")
@@ -188,20 +265,20 @@ public class CommonDB {
     @Then("The name information for the specified id in the topic table should be updatable")
     public void theNameInformationForTheSpecifiedIdInTheTopicTableShouldBeUpdatable() throws SQLException {
         int specifiedId = 124;
-        String newTopicName = "Mustafa ";
+        String newTopicName = "villa tarabya.";
 
-           query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
+        query = "UPDATE topic SET name = '" + newTopicName + "' WHERE id = " + specifiedId;
 
-            int rowsUpdated = statement.executeUpdate(query);
-            if (rowsUpdated > 0) {
-                System.out.println("Registry update successful.");
-            } else {
-                System.out.println("Registry update failed.");
-            }
-
-            statement.close();
-
+        int rowsUpdated = statement.executeUpdate(query);
+        if (rowsUpdated > 0) {
+            System.out.println("Registry update successful.");
+        } else {
+            System.out.println("Registry update failed.");
         }
+
+        statement.close();
+
+    }
 
     @Then("A new record should be added to the transport_route table.")
     public void aNewRecordShouldBeAddedToTheTransport_routeTable() {
@@ -213,9 +290,9 @@ public class CommonDB {
         try {
 
 
-            String sql = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
+           query = "INSERT INTO transport_route (route_title, no_of_vehicle, note, is_active) VALUES ('" + newRouteTitle + "', " + newNoOfVehicle + ", '" + newNote + "', " + newIsActive + ")";
 
-            int rowsInserted = statement.executeUpdate(sql);
+            int rowsInserted = statement.executeUpdate(query);
             if (rowsInserted > 0) {
                 System.out.println("new record added.");
             } else {
@@ -234,7 +311,7 @@ public class CommonDB {
         List<String> longestEmails = new ArrayList<>();
         //Statement statement = connection.createStatement();
 
-        String query = "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT "+number;
+        String query = "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT " + number;
 
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
@@ -242,13 +319,57 @@ public class CommonDB {
             longestEmails.add(email);
         }
 
-       // resultSet.close();
-       // statement.close();
-       // connection.close();
+        // resultSet.close();
+        // statement.close();
+        // connection.close();
 
         // Do something with longestEmails, such as printing or further processing
         for (String email : longestEmails) {
             System.out.println(email);
+        }
+    }
+
+    @When("The top {int} individuals with the highest amount value are listed from the Income table")
+    public void theTopIndividualsWithTheHighestAmountValueAreListedFromTheIncomeTable(int arg0) throws SQLException {
+        query = "SELECT id, name FROM income ORDER BY amount DESC LIMIT 10";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
+
+        }
+    }
+
+    @When("The top {int} employees with the longest tenure are listed by their respective departments from the staff table in the database.")
+    public void theTopEmployeesWithTheLongestTenureAreListedByTheirRespectiveDepartmentsFromTheStaffTableInTheDatabase(int arg0) throws SQLException {
+        query = "SELECT id, employee_id, name, surname, department, designation, date_of_joining, DATEDIFF(NOW(), date_of_joining) AS tenure_days FROM staff WHERE department IS NOT NULL ORDER BY department, tenure_days DESC LIMIT 3";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String id = resultSet.getString("id");
+            String name = resultSet.getString("name");
+
+            System.out.println("ID: " + id + ", Name: " + name);
+        }
+    }
+
+    @Then("List the {string} and {string} of students  with  admission numbers between {int} and {int}")
+    public void listTheAndOfStudentsWithAdmissionNumbersBetweenAnd(String firstName, String lastName, int startNumber, String endNumber) throws SQLException {
+
+        String query = "SELECT firstname, lastname FROM students WHERE admission_number BETWEEN 18001 AND 18010";
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                System.out.println("First Name: " + firstname + ", Last Name: " + lastname);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -285,9 +406,61 @@ public class CommonDB {
     }
 
 
-}
 
 
+
+
+    @Then("List the {string} and {string} of students  whose  lastname starts with {string}")
+    public void listTheAndOfStudentsWhoseLastnameStartsWith(String mother_name, String mother_occupation, String letter) {
+        String query = "SELECT mother_name, mother_occupation FROM students WHERE lastname LIKE 'T%'";
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                String motherName = resultSet.getString("mother_name");
+                String motherOccupation = resultSet.getString("mother_occupation");
+                System.out.println("Mother Name: " + motherName + ", Mother Occupation: " + motherOccupation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Then("List the {string} of students  whose {string} is either {string} or {string} from highest to lowest")
+    public void listTheOfStudentsWhoseIsEitherOrFromHighestToLowest(String roll_no, String father_occupation, String doctor, String police) {
+
+        String query = "SELECT roll_no FROM students WHERE father_occupation IN ('Doctor', 'Police') ORDER BY roll_no DESC";
+
+        try {
+            ResultSet resultSet = getStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                int rollNo = resultSet.getInt("roll_no");
+                System.out.println("Roll No: " + rollNo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+    @When("The email, salary, and phone information of the oldest employee is displayed.")
+    public void theEmailSalaryAndPhoneInformationOfTheOldestEmployeeIsDisplayed() throws SQLException {
+        query = "SELECT email, contact_no AS phone, basic_salary AS salary FROM staff WHERE dob = (SELECT MAX(dob) FROM staff)";
+        resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            double salary = resultSet.getDouble("salary");
+
+            System.out.println("Email: " + email + ", Phone: " + phone + ", Salary: " + salary);
+        }
+        }
+    }
 
 
 

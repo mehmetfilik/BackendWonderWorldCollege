@@ -1,3 +1,4 @@
+
 Feature: As an administrator, I want to access the book information of a book with a given ID through API connection.
 
   Background:
