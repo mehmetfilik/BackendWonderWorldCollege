@@ -7,7 +7,7 @@ Feature: [API_US39] Validation of api/getNoticeById Endpoint
     Then Postrequest sent with "<key>" and "<value>" must have "<status>" and "<message>"
     Examples:
       | key | value | status | message |
-      | id  | 33     | 200     | Success |
+      | id  | 31     | 200     | Success |
 
   @apiUS39_2
   Scenario Outline: [API_US39-->TC02] Verify 403 Response for Invalid Authorization or Invalid Data (id)
@@ -19,5 +19,5 @@ Feature: [API_US39] Validation of api/getNoticeById Endpoint
 
   @apiUS39_3
   Scenario: [API_US39-->TC03] Validate Content of List Data in Response Body
-    Given The contents of the list data with different id "33" in the NoticeList Response Body should be verified.
+    Given The contents of the list data with different id "31" in the NoticeList Response Body should be verified.
 
