@@ -323,12 +323,9 @@ public class CommonDB {
 
 
 
-    @When("a query is executed to retrieve the {int} longest \\(text) values from the email column in the students table")
-    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int arg0) {
-
 
     }
-}
+
 
 
 
@@ -365,7 +362,74 @@ public class CommonDB {
         }
     }
 
+    @Then("A specific {string} = {string} entry should be deletable from the visitors_book table")
+    public void aSpecificEntryShouldBeDeletableFromTheVisitors_bookTable(String data, String content) throws SQLException {
+
+        if (data == "id" || data == "staff_id" || data == "student_session_id" || data == "no_of_people"){
+
+
+            String deleteQuery = "DELETE FROM visitors_book " +
+                    "WHERE " + data +  " = " + content;
+
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+
+            if (rowsAffected > 0) {
+                System.out.println("Entry deleted successfully.");
+            } else {
+                System.out.println("Entry not found or could not be deleted.");
+            }
+
+        }else {
+
+            String deleteQuery = "DELETE FROM visitors_book " +
+                    "WHERE " + data +  " = '" + content + "'";
+
+            int rowsAffected = statement.executeUpdate(deleteQuery);
+
+            if (rowsAffected > 0) {
+                System.out.println("Entry deleted successfully.");
+            } else {
+                System.out.println("Entry not found or could not be deleted.");
+            }
+        }
+
+    }
+
+    @Then("Update fine_amount to {string} in transport_feemaster for records with month {string}")
+    public void updateFine_amountToInTransport_feemasterForRecordsWithMonth(String amount, String month) throws SQLException {
+
+        String updateQuery = "UPDATE transport_feemaster SET fine_amount = " + amount + " WHERE month = '" + month + "'";
+
+        int rowsAffected = statement.executeUpdate(updateQuery);
+
+        if (rowsAffected > 0) {
+            System.out.println("Record updated successfully.");
+        } else {
+            System.out.println("Record not found or could not be updated.");
+        }
+    }
+
+    @Then("List the first {string} employees in the staff table sorted by work experience from the oldest to the newest.")
+    public void listTheFirstEmployeesInTheStaffTableSortedByWorkExperienceFromTheOldestToTheNewest(Integer number) throws SQLException {
+
+        String selectQuery = "SELECT * FROM staff ORDER BY work_experience ASC LIMIT 5";
+        ResultSet resultSet = statement.executeQuery(selectQuery);
+
+        while (resultSet.next()) {
+            int employeeId = resultSet.getInt("employee_id");
+            String firstName = resultSet.getString("first_name");
+            String lastName = resultSet.getString("last_name");
+            int workExperience = resultSet.getInt("work_experience");
+            System.out.println("Employee ID: " + employeeId);
+            System.out.println("Name: " + firstName + " " + lastName);
+            System.out.println("Work Experience: " + workExperience);
+
+        }
+
+
+    }
 }
+
 
 
 
