@@ -8,7 +8,9 @@ import org.junit.Assert;
 import utilities.ConfigReader;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static utilities.DB_Utils.*;
@@ -226,9 +228,63 @@ public class CommonDB {
         }
     }
 
+    //hamza
     @When("a query is executed to retrieve the {int} longest \\(text) values from the email column in the students table")
-    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int arg0) {
+    public void aQueryIsExecutedToRetrieveTheLongestTextValuesFromTheEmailColumnInTheStudentsTable(int number) throws SQLException {
+        List<String> longestEmails = new ArrayList<>();
+        //Statement statement = connection.createStatement();
+
+        String query = "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT "+number;
+
+        ResultSet resultSet = statement.executeQuery(query);
+        while (resultSet.next()) {
+            String email = resultSet.getString("email");
+            longestEmails.add(email);
+        }
+
+       // resultSet.close();
+       // statement.close();
+       // connection.close();
+
+        // Do something with longestEmails, such as printing or further processing
+        for (String email : longestEmails) {
+            System.out.println(email);
+        }
     }
+
+    @Then("I display the name information of the highest expense in the expenses table")
+    public void iDisplayTheNameInformationOfTheHighestExpenseInTheExpensesTable() throws SQLException {
+       // Statement statement = connection.createStatement();
+        String query = "SELECT name FROM expenses ORDER BY amount DESC LIMIT 1";
+
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) {
+            String expenseName = resultSet.getString("name");
+            System.out.println("Name of the highest expense: " + expenseName);
+        } else {
+            System.out.println("No expenses found.");
+        }
+
+        //resultSet.close();
+       // statement.close();
+        //connection.close();
+    }
+
+    @When("I add a new call content to the general_calls table")
+    public void iAddANewCallContentToTheGeneral_callsTable() throws SQLException {
+        String callContent = "This is a new call content.";
+
+        //String insertQuery = "INSERT INTO general_calls (content) VALUES (?)";
+        String insertQuery= "INSERT INTO wonderworld_qa2.general_calls (name, contact,date, description,follow_up_date,call_duration, note,call_type) VALUES ('test01','test01','2023-08-16', 'testdescription','2023-08-19','test duration','testnote','testtype');";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, callContent);
+            preparedStatement.executeUpdate();
+        }
+
+        //connection.close();
+    }
+
+
 }
 
 
