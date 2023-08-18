@@ -74,7 +74,7 @@ public class NoticeListsAPI {
                                 "the judges, earning them top honors among fierce competitors from across the country. This achievement highlights Wonder World " +
                                 "College's commitment to excellence in STEM education and fostering a culture of innovation."),
                         "lists.is_active", Matchers.equalTo("no"),
-                        "lists.created_at", Matchers.equalTo("2023-07-19 08:00:49"),
+                        "lists.created_at", Matchers.equalTo("2023-07-19 12:00:49"),
                         "lists.meta_title", Matchers.equalTo(""),
                         "lists.meta_keyword", Matchers.equalTo(""),
                         "lists.feature_image", Matchers.equalTo(""),
@@ -116,7 +116,7 @@ public class NoticeListsAPI {
                                 "project impressed the judges, earning them top honors among fierce competitors from across the country. This achievement " +
                                 "highlights Wonder World College's commitment to excellence in STEM education and fostering a culture of innovation."),
                         "lists.is_active", Matchers.equalTo("no"),
-                        "lists.created_at", Matchers.equalTo("2023-07-19 08:00:49"),
+                        "lists.created_at", Matchers.equalTo("2023-07-19 12:00:49"),
                         "lists.meta_title", Matchers.equalTo(""),
                         "lists.meta_description", Matchers.equalTo(""),
                         "lists.meta_keyword", Matchers.equalTo(""),

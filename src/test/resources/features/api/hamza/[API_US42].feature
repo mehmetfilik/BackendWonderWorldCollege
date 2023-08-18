@@ -10,12 +10,12 @@ Feature: [API_US42] Validation of api/deleteNotice Endpoint
   Scenario: [API_US42-->TC02] Confirm DELETE request:Verify 403 Response for Invalid Authorization or Incorrect Data (id)
 
     * User sets "api/deleteNotice" path param.
-    * With "inValid" Authorization is sent Delete request must id: "255", delete_id_key: "deletedId", status: 403 and message: "failed"
+    * With "inValid" Authorization is sent Delete request must id: "380", delete_id_key: "deletedId", status: 403 and message: "failed"
 
   @apiUS42_3,4
   Scenario: [API_US42-->TC03] Verify Deletion of Notice Record through the API
 
     * User sets "api/deleteNotice" path param.
-    * With "Valid" Authorization is sent Delete request must id: "357", delete_id_key: "deletedId", status: 200 and message: "Success"
+    * With "Valid" Authorization is sent Delete request must id: "381", delete_id_key: "deletedId", status: 200 and message: "Success"
     Given User sets "api/getNoticeById" path param.
     Then After Notice deleting Postrequest sent with "id" must have status: 403 and message: "failed"
