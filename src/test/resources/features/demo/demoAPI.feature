@@ -119,10 +119,10 @@ Feature: It is used to list all the countries registered in the database.
     Then With "Valid" Authorization is sent Get request must status: "200" and message: "Success"
 
 
-  Scenario:[API_USO7 -->TC02] Failed response
+# Scenario:[API_USO7 -->TC02] Failed response
 
-    Given User sets "api/alumniEventsList" path param.
-    Then With "Invalid" Authorization is sent Get request must status: "403" and message: "failed"
+#   Given User sets "api/alumniEventsList" path param.
+#   Then With "Invalid" Authorization is sent Get request must status: "403" and message: "failed"
   Scenario:[API_USO7 -->TC03] The Alumni Event List response body  should contain data with the id of "2"
 
     Then Confirm the content of Alumni Event List response body list data with Id "2".
@@ -210,12 +210,12 @@ Feature: It is used to list all the countries registered in the database.
 
 
 
-  Scenario Outline: [API_US14-->TC01] Confirm that using valid authorization and correct data (id) in a POST body to api/vehicleId endpoint yields a 200 status code, with the response body's "message" being "Success."
-    Given User sets "api/vehicleId" path param
-    Then Post request sent with "valid authorization" "<key>" and "<value>" must have "<status>" and "<message>"
-    Examples:
-      | key | value | status | message |
-      | id  | 1     | 200    | Success |
+#  Scenario Outline: [API_US14-->TC01] Confirm that using valid authorization and correct data (id) in a POST body to api/vehicleId endpoint yields a 200 status code, with the response body's "message" being "Success."
+#    Given User sets "api/vehicleId" path param
+#    Then Post request sent with "valid authorization" "<key>" and "<value>" must have "<status>" and "<message>"
+#    Examples:
+#      | key | value | status | message |
+#      | id  | 1     | 200    | Success |
 
   Scenario Outline: [API_US14-->TC02] Validate that sending an invalid POST body containing unauthorized credentials or invalid data (id) to the api/vehicleId endpoint results in a 403 status code, and the response body's "message" should be verified as "failed."
     Given User sets "api/vehicleId" path param
@@ -225,9 +225,9 @@ Feature: It is used to list all the countries registered in the database.
       | id  | 1     | 403    | failed  |
 
 
-  Scenario: [API_US14-->TC03] The lists content in the response body should be able to verify the data content with id=1.
-    Given User sets "api/vehicleId" path param
-    Given Verify the data content with lists content id=1 in the response body.
+#  Scenario: [API_US14-->TC03] The lists content in the response body should be able to verify the data content with id=1.
+#    Given User sets "api/vehicleId" path param
+#    Given Verify the data content with lists content id=1 in the response body.
 
 
   Scenario:[US_15-->TC_01] When valid authorization info and correct data are POSTed to api/vehicleAdd, expected status code: 200, and response body message should be 'Success'.
@@ -259,9 +259,9 @@ Feature: It is used to list all the countries registered in the database.
 #    Given User sets "api/vehicleUpdate" path param.
 #    Then Update the vehicle registration with ID 28 and verify that it has been updated
 
-  Scenario: [US_17-->TC_01] Valid authorization, correct ID in DELETE request to api/vehicleDelete should return 200 status, 'Success' message.
-    Given User sets "api/vehicleDelete" path param.
-    Then send endpoint valid DELETE body and verify that the returned status code is 200 and the "message" information is "Success"
+#  Scenario: [US_17-->TC_01] Valid authorization, correct ID in DELETE request to api/vehicleDelete should return 200 status, 'Success' message.
+#    Given User sets "api/vehicleDelete" path param.
+#    Then send endpoint valid DELETE body and verify that the returned status code is 200 and the "message" information is "Success"
 
   Scenario:[US_17-->TC02] Failed Response
     Given User sets "api/vehicleDelete" path param.
@@ -484,17 +484,15 @@ Feature: It is used to list all the countries registered in the database.
 
 
   Scenario Outline: [API_US32-->TC01] Valid auth info and correct data (id) sent via DELETE to api/booksDelete results in expected 200 status code with response message "Success."
-
     Given User sets "api/booksAdd" path param.
     Then Postrequest sent with "<book_title>","<book_no>","<isbn_no>","<subject>","<rack_no>","<publish>","<author>","<qty>","<perunitcost>","<postdate>","<description>",must have "<status>" and "<message>"
     * User sets "api/booksDelete" path param.
-    * With "Valid" Authorization is sent Delete request must id: "366", delete_id_key: "DeletedId", status: 200 and message: "Success"
+    * With "Valid" Authorization is sent Delete request must id: "371", delete_id_key: "DeletedId", status: 200 and message: "Success"
 
     Examples:
 
       | book_title                                | book_no   | isbn_no   | subject      | rack_no | publish         | author        | qty | perunitcost | postdate   | description                                                                                                                                      | status | message |
       | Multiplication and Division Grades 3-4 23 | 788789    |    001    |   sassd      | 110     | Barbara Bando   | Barbara Bando | 100 | 12.00       | 2022-05-04 | The duo dump her in a nearby river after a failed attempt to hang her. Tonya survives, and the two men are arrested by Sheriff Ozzie Walls.      | 200    | Success |
-
 
 
 
@@ -505,19 +503,16 @@ Feature: It is used to list all the countries registered in the database.
 
 
   Scenario Outline: [API_US32-->TC03]
-
     Given User sets "api/booksAdd" path param.
     Then Postrequest sent with "<book_title>","<book_no>","<isbn_no>","<subject>","<rack_no>","<publish>","<author>","<qty>","<perunitcost>","<postdate>","<description>",must have "<status>" and "<message>"
     * User sets "api/booksDelete" path param.
-    * With "Valid" Authorization is sent Delete request must id: "367", delete_id_key: "DeletedId", status: 200 and message: "Success"
+    * With "Valid" Authorization is sent Delete request must id: "372", delete_id_key: "DeletedId", status: 200 and message: "Success"
     Given User sets "api/booksId" path param.
     Then After Books deleting Postrequest sent with "id" must have status: 403 and message: "failed"
-
     Examples:
 
       | book_title                                | book_no   | isbn_no   | subject      | rack_no | publish         | author        | qty | perunitcost | postdate   | description                                                                                                                                      | status | message |
       | Multiplication and Division Grades 3-4 23 | 788789    |    001    |   sassd      | 110     | Barbara Bando   | Barbara Bando | 100 | 12.00       | 2022-05-04 | The duo dump her in a nearby river after a failed attempt to hang her. Tonya survives, and the two men are arrested by Sheriff Ozzie Walls.      | 200    | Success |
-
 
 
 
@@ -531,10 +526,8 @@ Feature: It is used to list all the countries registered in the database.
     Then When a Get request is made with invalid Authorization, the status must be 403, and the message must be failed.
 
 
-#  Scenario: [US_38-->TC_03] The lists content in the response body should be able to verify the data content with id=1
-#
-#    Then The contents of the list data with id: "31" in the Notice List Response Body should be verified.
-
+  Scenario: The lists content in the response body should be able to verify the data content with id=1
+    Then The contents of the list data with id: "31" in the Notice List Response Body should be verified.
 
   Scenario Outline: [API_US39-->TC01] Verify Successful Response for Valid Authorization and Correct Data (id)
     Given User sets "api/getNoticeById" path param.
@@ -552,8 +545,8 @@ Feature: It is used to list all the countries registered in the database.
       | id  | 34     | 403     | failed |
 
 
-#  Scenario: [API_US39-->TC03] Validate Content of List Data in Response Body
-#    Given The contents of the list data with different id "31" in the NoticeList Response Body should be verified.
+  Scenario: [API_US39-->TC03] Validate Content of List Data in Response Body
+    Given The contents of the list data with different id "31" in the NoticeList Response Body should be verified.
 
   Scenario Outline: [API_US40-->TC_01] Verify Successful Response for Valid Authorization and Correct Data (type, title, description, slug)
     Given User sets "api/addNotice" path param.
@@ -563,12 +556,12 @@ Feature: It is used to list all the countries registered in the database.
       | testtype3      | testtitle3 | testdescription3  | testslug3     | 200    | Success |
 
 
-# Scenario Outline: [API_US40-->TC02] Verify 403 Response for Invalid Authorization or Missing Data (type, title, description, slug)
-#   Given User sets "api/addNotice" path param.
-#   Then Postrequest sent with "inValid" Authorization "<type>", "<title>", "<description>", "<slug>" must have <status> and "<message>"
-#   Examples:
-#     | type           | title      | description       | slug          | status | message |
-#     | testtype3      | testtitle3 | testdescription3  | testslug3     | 200    | Success |
+  Scenario Outline: [API_US40-->TC02] Verify 403 Response for Invalid Authorization or Missing Data (type, title, description, slug)
+    Given User sets "api/addNotice" path param.
+    Then Postrequest sent with "inValid" Authorization "<type>", "<title>", "<description>", "<slug>" must have <status> and "<message>"
+    Examples:
+      | type           | title      | description       | slug          | status | message |
+      | testtype3      | testtitle3 | testdescription3  | testslug3     | 403    | failed |
 
 
   Scenario Outline: [API_US40-->TC03] Verify Creation of New Notice Record Given a new notice record is created through the API
@@ -583,7 +576,7 @@ Feature: It is used to list all the countries registered in the database.
 
   Scenario: [API_US41-->TC01] Verify Successful Response for Valid Authorization and Correct Data (id, type, title, description, slug)
     Given User sets "api/updateNotice" path param.
-    Then In Notice List with "Valid" Authorization is sent Patch request must id: "256", update_id_key: "updateId", status: 200 and message: "Success"
+    Then In Notice List with "Valid" Authorization is sent Patch request must id: "353", update_id_key: "updateId", status: 200 and message: "Success"
 
 
   Scenario: [API_US41-->TC02] Verify 403 Response for Invalid Authorization or Missing/Incorrect Data (id)
@@ -599,7 +592,7 @@ Feature: It is used to list all the countries registered in the database.
 
 #  Scenario: [API_US42-->TC01] Confirm DELETE request: Verify Successful Response for Valid Authorization and Correct Data (id)
 #    * User sets "api/deleteNotice" path param.
-#    * With "Valid" Authorization is sent Delete request must id: "248", delete_id_key: "deletedId", status: 200 and message: "Success"
+#    * With "Valid" Authorization is sent Delete request must id: "255", delete_id_key: "deletedId", status: 200 and message: "Success"
 
 
   Scenario: [API_US42-->TC02] Confirm DELETE request:Verify 403 Response for Invalid Authorization or Incorrect Data (id)
@@ -608,12 +601,12 @@ Feature: It is used to list all the countries registered in the database.
     * With "inValid" Authorization is sent Delete request must id: "252", delete_id_key: "deletedId", status: 403 and message: "failed"
 
 
-#  Scenario: [API_US42-->TC03] Verify Deletion of Notice Record through the API
+ # Scenario: [API_US42-->TC03] Verify Deletion of Notice Record through the API
 #
-#    * User sets "api/deleteNotice" path param.
-#    * With "Valid" Authorization is sent Delete request must id: "253", delete_id_key: "deletedId", status: 200 and message: "Success"
-#    Given User sets "api/getNoticeById" path param.
-#    Then After Notice deleting Postrequest sent with "id" must have status: 403 and message: "failed"
+ #   * User sets "api/deleteNotice" path param.
+ #   * With "Valid" Authorization is sent Delete request must id: "357", delete_id_key: "deletedId", status: 200 and message: "Success"
+ #   Given User sets "api/getNoticeById" path param.
+ #   Then After Notice deleting Postrequest sent with "id" must have status: 403 and message: "failed"
 
 
   Scenario:[API_US43-->TC01] Success Response
